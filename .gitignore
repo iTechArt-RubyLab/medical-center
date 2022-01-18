@@ -1,9 +1,7 @@
 /.bundle
 
-/log/*
-/tmp/*
-!/log/.keep
-!/tmp/.keep
+/log
+/tmp
 
 /storage/*
 !/storage/.keep
