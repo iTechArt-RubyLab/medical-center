@@ -1,3 +1,6 @@
+require: rubocop-rails
+require: rubocop-rspec
+
 AllCops:
   NewCops: enable
   Exclude:
@@ -14,4 +17,10 @@ Style/Documentation:
 
 Style/FrozenStringLiteralComment:
   Enabled: false
-  
+
+Metrics/BlockLength:
+  Max: 5
+  IgnoredMethods:
+    - context
+    - describe
+    - it
