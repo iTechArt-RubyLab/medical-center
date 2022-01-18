@@ -1,0 +1,2 @@
+class VisitsDiagnosis < ApplicationRecord
+end
