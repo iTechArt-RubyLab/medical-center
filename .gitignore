@@ -12,7 +12,6 @@
 .byebug_history
 
 /config/master.key
-/config/database.yml
 
 config/application.yml
 
