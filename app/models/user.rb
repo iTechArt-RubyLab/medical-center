@@ -1,3 +1,11 @@
+class PhoneNumberValidator < ActiveModel::Validator
+  def validate(record)
+    return if Phonelib.valid? record.phone_number
+
+    record.errors.add :phone_number, 'Invalid telephone number'
+  end
+end
+
 class User < ApplicationRecord
   include UserStatus
 
@@ -6,8 +14,18 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :user_categories
   has_many :categories, through: :user_categories
   has_one_attached :avatar
 
   enum role: { common: 0, admin: 1 }
+
+  validates :full_name, presence: true, length: { in: 3..50 }
+  validates :email, presence: true, uniqueness: true
+  validates :phone_number, presence: true, uniqueness: true
+  validates_with PhoneNumberValidator
+  validates_date :birthdate, presence: true, between: ['01.01.1900', :today]
+  validates :role, presence: true
+  validates :cabinet_number, presence: true
+  validates :status, presence: true
 end
