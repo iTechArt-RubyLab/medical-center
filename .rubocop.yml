@@ -1,5 +1,6 @@
-require: rubocop-rails
-require: rubocop-rspec
+require: 
+  - rubocop-rails
+  - rubocop-rspec
 
 AllCops:
   NewCops: enable
@@ -18,8 +19,9 @@ Style/Documentation:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+
 Metrics/BlockLength:
-  Max: 5
+  Max: 15
   IgnoredMethods:
     - context
     - describe

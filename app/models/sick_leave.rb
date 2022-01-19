@@ -1,3 +1,3 @@
 class SickLeave < ApplicationRecord
-  has_many :books
+  has_many :visits, dependent: :nullify
 end
