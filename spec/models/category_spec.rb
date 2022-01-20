@@ -8,6 +8,10 @@ RSpec.describe Category, type: :model do
       end
     end
 
+    let(:title) { 'Dentist' }
+
+    before { create :category, title: title }
+
     context 'when title is blank' do
       let(:category) { build :category, title: nil }
 
@@ -15,9 +19,7 @@ RSpec.describe Category, type: :model do
     end
 
     context 'when title is duplicated' do
-      let(:title) { 'Dentist' }
-      let!(:correct_category) { create :category, title: title }
-      let!(:category) { build :category, title: title }
+      let(:category) { build :category, title: title }
 
       include_examples 'Checks that category invalid'
     end
