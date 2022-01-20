@@ -8,13 +8,13 @@ RSpec.describe UserCategory, type: :model do
       end
     end
 
-    context "when user is blank" do
+    context 'when user is blank' do
       let(:user_category) { build :user_category, user: nil }
 
       include_examples 'Checks that user_category invalid'
     end
 
-    context "when category is blank" do
+    context 'when category is blank' do
       let(:user_category) { build :user_category, category: nil }
 
       include_examples 'Checks that user_category invalid'
