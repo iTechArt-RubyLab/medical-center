@@ -20,7 +20,7 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 
 Metrics/BlockLength:
-  Max: 5
+  Max: 15
   IgnoredMethods:
     - context
     - describe
