@@ -87,7 +87,6 @@ ActiveRecord::Schema.define(version: 2022_01_20_113202) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["diagnose_id"], name: "index_visits_diagnoses_on_diagnose_id"
     t.index ["visit_id"], name: "index_visits_diagnoses_on_visit_id"
-
   end
   
   create_table "user_categories", force: :cascade do |t|
