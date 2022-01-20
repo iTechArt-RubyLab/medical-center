@@ -3,7 +3,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.0.3'
 
-gem 'email_validator', '~> 2.2', '>= 2.2.3'
+gem 'aasm', '~> 5.2'
+gem 'devise', '~> 4.8'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.4', '>= 6.1.4.4'
 # Use sqlite3 as the database for Active Record
@@ -35,8 +36,11 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails', '~> 5.0.0'
-  gem 'factory_bot_rails'
-  gem 'faker', '~> 2.19.0'
+  gem 'email_validator', '~> 2.2', '>= 2.2.3'
+  gem 'phonelib', '~> 0.5.4'
+  gem 'validates_timeliness', '~> 6.0.0.beta2'
+  gem "factory_bot_rails"
+  gem 'faker', '~> 2.19'
 end
 
 group :development do
