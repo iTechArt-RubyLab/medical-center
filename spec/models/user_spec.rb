@@ -8,6 +8,11 @@ RSpec.describe User, type: :model do
       end
     end
 
+    let(:email) { 'arsenij@mail.ru' }
+    let(:phone) { '+375295673205' }
+
+    before { create :user, email: email, phone_number: phone }
+
     context 'when name is blank' do
       let(:user) { build :user, full_name: nil }
 
@@ -21,9 +26,7 @@ RSpec.describe User, type: :model do
     end
 
     context 'when email is duplicated' do
-      let(:email) { 'arsenij@mail.ru' }
-      let!(:correct_user) { create :user, email: email }
-      let!(:user) { build :user, email: email }
+      let(:user) { build :user, email: email }
 
       include_examples 'Checks that user invalid'
     end
@@ -35,9 +38,7 @@ RSpec.describe User, type: :model do
     end
 
     context 'when phone is duplicated' do
-      let(:phone) { '+375295673205' }
-      let!(:correct_user) { create :user, phone_number: phone }
-      let!(:user) { build :user, phone_number: phone }
+      let(:user) { build :user, phone_number: phone }
 
       include_examples 'Checks that user invalid'
     end

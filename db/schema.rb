@@ -10,27 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_20_113202) do
+ActiveRecord::Schema.define(version: 2022_01_20_144138) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "diagnoses", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "symptom", null: false
-    t.text "medication_list", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["name"], name: "index_diagnoses_on_name", unique: true
-  end
-
-  create_table "sick_leaves", force: :cascade do |t|
-    t.string "destination"
-    t.integer "doctor_id", null: false
-    t.integer "patient_id", null: false
-    t.datetime "started_at", null: false
-    t.datetime "ended_at", null: false
-  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -60,69 +43,28 @@ ActiveRecord::Schema.define(version: 2022_01_20_113202) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "categories", force: :cascade do |t|
-    t.string "title", null: false
-    t.text "description"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "visits", force: :cascade do |t|
-    t.string "cabinet", null: false
-    t.integer "doctor_id", null: false
-    t.integer "patient_id", null: false
-    t.datetime "date", null: false
-    t.datetime "birthday", null: false
-    t.text "notes"
-    t.bigint "sick_leave_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["sick_leave_id"], name: "index_visits_on_sick_leave_id"
-  end
-
-  create_table "visits_diagnoses", force: :cascade do |t|
-    t.bigint "visit_id"
-    t.bigint "diagnose_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["diagnose_id"], name: "index_visits_diagnoses_on_diagnose_id"
-    t.index ["visit_id"], name: "index_visits_diagnoses_on_visit_id"
-
-  end
-  
-  create_table "user_categories", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "category_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["category_id"], name: "index_user_categories_on_category_id"
-    t.index ["user_id"], name: "index_user_categories_on_user_id"
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.string "full_name", null: false
-    t.integer "role", default: 0, null: false
-    t.string "phone_number", null: false
-    t.date "birthdate", null: false
-    t.string "cabinet_number", null: false
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "status"
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["status"], name: "index_users_on_status"
-  end
-
   create_table "allergies", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_allergies_on_name", unique: true
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["title"], name: "index_categories_on_title", unique: true
+  end
+
+  create_table "diagnoses", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "symptom", null: false
+    t.text "medication_list", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_diagnoses_on_name", unique: true
   end
 
   create_table "patient_allergies", force: :cascade do |t|
@@ -149,11 +91,72 @@ ActiveRecord::Schema.define(version: 2022_01_20_113202) do
     t.index ["passport_id"], name: "index_patients_on_passport_id", unique: true
   end
 
-  add_foreign_key "visits", "sick_leaves", column: "sick_leave_id"
+  create_table "sick_leaves", force: :cascade do |t|
+    t.string "destination"
+    t.integer "doctor_id", null: false
+    t.integer "patient_id", null: false
+    t.datetime "started_at", null: false
+    t.datetime "ended_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "user_categories", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "category_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["category_id"], name: "index_user_categories_on_category_id"
+    t.index ["user_id"], name: "index_user_categories_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "full_name", null: false
+    t.integer "role", default: 0, null: false
+    t.string "phone_number", null: false
+    t.date "birthdate", null: false
+    t.string "cabinet_number", null: false
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "status"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["phone_number"], name: "index_users_on_phone_number", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["status"], name: "index_users_on_status"
+  end
+
+  create_table "visits", force: :cascade do |t|
+    t.string "cabinet", null: false
+    t.integer "doctor_id", null: false
+    t.integer "patient_id", null: false
+    t.datetime "date", null: false
+    t.datetime "birthday", null: false
+    t.text "notes"
+    t.bigint "sick_leave_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["sick_leave_id"], name: "index_visits_on_sick_leave_id"
+  end
+
+  create_table "visits_diagnoses", force: :cascade do |t|
+    t.bigint "visit_id"
+    t.bigint "diagnose_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["diagnose_id"], name: "index_visits_diagnoses_on_diagnose_id"
+    t.index ["visit_id"], name: "index_visits_diagnoses_on_visit_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "user_categories", "categories"
-  add_foreign_key "user_categories", "users"
   add_foreign_key "patient_allergies", "allergies"
   add_foreign_key "patient_allergies", "patients"
+  add_foreign_key "user_categories", "categories"
+  add_foreign_key "user_categories", "users"
+  add_foreign_key "visits", "sick_leaves", column: "sick_leave_id"
 end

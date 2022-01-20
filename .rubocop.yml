@@ -21,7 +21,7 @@ Style/FrozenStringLiteralComment:
 
 
 Metrics/BlockLength:
-  Max: 15
+  Max: 20
   IgnoredMethods:
     - context
     - describe

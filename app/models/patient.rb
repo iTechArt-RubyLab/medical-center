@@ -2,6 +2,8 @@ class Patient < ApplicationRecord
   has_many :patient_allergies, dependent: :destroy
   has_many :allergies, through: :patient_allergies
 
+  has_one_attached :avatar
+
   validates :full_name, presence: true, length: { in: 3..50 }
   validates :email, email: true, allow_blank: true, uniqueness: true
   validates :telephone_number, presence: true, length: { in: 7..12 }, numericality: { only_integer: true }
