@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_18_152931) do
+ActiveRecord::Schema.define(version: 2022_01_19_172255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,8 +78,41 @@ ActiveRecord::Schema.define(version: 2022_01_18_152931) do
     t.index ["status"], name: "index_users_on_status"
   end
 
+  create_table "allergies", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_allergies_on_name"
+  end
+
+  create_table "patient_allergies", force: :cascade do |t|
+    t.bigint "patient_id", null: false
+    t.bigint "allergy_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["allergy_id"], name: "index_patient_allergies_on_allergy_id"
+    t.index ["patient_id"], name: "index_patient_allergies_on_patient_id"
+  end
+
+  create_table "patients", force: :cascade do |t|
+    t.string "full_name", null: false
+    t.string "email"
+    t.string "telephone_number"
+    t.datetime "date_of_birth"
+    t.text "allergies_additional"
+    t.text "notes"
+    t.string "passport_id"
+    t.string "address"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_patients_on_email"
+    t.index ["passport_id"], name: "index_patients_on_passport_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "user_categories", "categories"
   add_foreign_key "user_categories", "users"
+  add_foreign_key "patient_allergies", "allergies"
+  add_foreign_key "patient_allergies", "patients"
 end
