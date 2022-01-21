@@ -25,7 +25,4 @@ class SickLeave < ApplicationRecord
   has_many :visits, dependent: :nullify
   belongs_to :user
   belongs_to :patient
-
-  validates :patient_id, presence: true
-  validates :user_id, presence: true
 end

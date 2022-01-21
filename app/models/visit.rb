@@ -33,7 +33,4 @@ class Visit < ApplicationRecord
 
   validates :cabinet, presence: true, length: { in: 1..10 }
   validates :date, presence: true
-  validates :patient_id, presence: true
-  validates :user_id, presence: true
-  validates :sick_leave_id, presence: true
 end

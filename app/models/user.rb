@@ -36,7 +36,7 @@ class User < ApplicationRecord
   has_many :categories, through: :user_categories
   has_many :visits, dependent: :nullify
   has_many :sick_leaves, dependent: :nullify
-  
+
   has_one_attached :avatar
 
   enum role: { common: 0, admin: 1 }
