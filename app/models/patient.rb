@@ -23,6 +23,7 @@ class Patient < ApplicationRecord
   has_many :patient_allergies, dependent: :destroy
   has_many :allergies, through: :patient_allergies
   has_many :visits, dependent: :nullify
+  has_many :sick_leaves, dependent: :nullify
 
   has_one_attached :avatar
 

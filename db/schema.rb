@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_21_115410) do
+ActiveRecord::Schema.define(version: 2022_01_21_134450) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,12 +93,14 @@ ActiveRecord::Schema.define(version: 2022_01_21_115410) do
 
   create_table "sick_leaves", force: :cascade do |t|
     t.string "destination"
-    t.integer "doctor_id", null: false
-    t.integer "patient_id", null: false
     t.datetime "started_at", null: false
     t.datetime "ended_at", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id", null: false
+    t.bigint "patient_id", null: false
+    t.index ["patient_id"], name: "index_sick_leaves_on_patient_id"
+    t.index ["user_id"], name: "index_sick_leaves_on_user_id"
   end
 
   create_table "user_categories", force: :cascade do |t|
@@ -157,6 +159,8 @@ ActiveRecord::Schema.define(version: 2022_01_21_115410) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "patient_allergies", "allergies"
   add_foreign_key "patient_allergies", "patients"
+  add_foreign_key "sick_leaves", "patients"
+  add_foreign_key "sick_leaves", "users"
   add_foreign_key "user_categories", "categories"
   add_foreign_key "user_categories", "users"
   add_foreign_key "visits", "patients"
