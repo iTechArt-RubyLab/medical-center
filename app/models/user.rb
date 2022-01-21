@@ -8,6 +8,10 @@ class User < ApplicationRecord
 
   has_many :user_categories, dependent: :destroy
   has_many :categories, through: :user_categories
+
+  has_many :user_sick_leave, dependent: :destroy
+  has_many :sick_leaves, through: :user_sick_leave
+
   has_one_attached :avatar
 
   enum role: { common: 0, admin: 1 }
