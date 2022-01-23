@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: categories
+#
+#  id          :bigint           not null, primary key
+#  description :text
+#  title       :string           not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+# Indexes
+#
+#  index_categories_on_title  (title) UNIQUE
+#
 require 'rails_helper'
 
 RSpec.describe Category, type: :model do

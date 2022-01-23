@@ -93,12 +93,14 @@ ActiveRecord::Schema.define(version: 2022_01_22_101831) do
 
   create_table "sick_leaves", force: :cascade do |t|
     t.string "destination"
-    t.integer "doctor_id", null: false
-    t.integer "patient_id", null: false
     t.datetime "started_at", null: false
     t.datetime "ended_at", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id", null: false
+    t.bigint "patient_id", null: false
+    t.index ["patient_id"], name: "index_sick_leaves_on_patient_id"
+    t.index ["user_id"], name: "index_sick_leaves_on_user_id"
   end
 
   create_table "user_categories", force: :cascade do |t|
@@ -134,15 +136,16 @@ ActiveRecord::Schema.define(version: 2022_01_22_101831) do
 
   create_table "visits", force: :cascade do |t|
     t.string "cabinet", null: false
-    t.integer "doctor_id", null: false
-    t.integer "patient_id", null: false
     t.datetime "date", null: false
-    t.datetime "birthday", null: false
     t.text "notes"
-    t.bigint "sick_leave_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id", null: false
+    t.bigint "patient_id", null: false
+    t.bigint "sick_leave_id", null: false
+    t.index ["patient_id"], name: "index_visits_on_patient_id"
     t.index ["sick_leave_id"], name: "index_visits_on_sick_leave_id"
+    t.index ["user_id"], name: "index_visits_on_user_id"
   end
 
   create_table "visits_diagnoses", force: :cascade do |t|
@@ -158,7 +161,11 @@ ActiveRecord::Schema.define(version: 2022_01_22_101831) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "patient_allergies", "allergies"
   add_foreign_key "patient_allergies", "patients"
+  add_foreign_key "sick_leaves", "patients"
+  add_foreign_key "sick_leaves", "users"
   add_foreign_key "user_categories", "categories"
   add_foreign_key "user_categories", "users"
+  add_foreign_key "visits", "patients"
   add_foreign_key "visits", "sick_leaves", column: "sick_leave_id"
+  add_foreign_key "visits", "users"
 end
