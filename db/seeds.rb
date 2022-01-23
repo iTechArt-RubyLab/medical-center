@@ -14,3 +14,6 @@ FactoryBot.create(:category, :pediatrician)
 
 3.times { FactoryBot.create(:user) }
 
+FactoryBot.create(:sick_leave)
+
+FactoryBot.create(:visit)
