@@ -7,6 +7,7 @@ gem 'aasm', '~> 5.2'
 gem 'devise', '~> 4.8'
 gem 'devise_token_auth', '~> 1.2'
 gem 'grape-entity', '~> 0.10.1'
+gem 'email_validator', '~> 2.2', '>= 2.2.3'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.4', '>= 6.1.4.4'
 # Use sqlite3 as the database for Active Record
@@ -38,14 +39,12 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'grape'
   gem 'rspec-rails', '~> 5.0.0'
-  gem 'email_validator', '~> 2.2', '>= 2.2.3'
-  gem 'phonelib', '~> 0.5.4'
-  gem 'validates_timeliness', '~> 6.0.0.beta2'
   gem "factory_bot_rails"
   gem 'faker', '~> 2.19'
 end
 
 group :development do
+  gem 'annotate', '~> 3.1.1'
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 4.1.0'
   # Display performance information such as SQL time and flame graphs for each request in your browser.
