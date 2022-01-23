@@ -1,6 +1,29 @@
+# == Schema Information
+#
+# Table name: patients
+#
+#  id                   :bigint           not null, primary key
+#  address              :string
+#  allergies_additional :text
+#  date_of_birth        :datetime
+#  email                :string
+#  full_name            :string           not null
+#  notes                :text
+#  telephone_number     :string
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  passport_id          :string
+#
+# Indexes
+#
+#  index_patients_on_email        (email) UNIQUE
+#  index_patients_on_passport_id  (passport_id) UNIQUE
+#
 class Patient < ApplicationRecord
   has_many :patient_allergies, dependent: :destroy
   has_many :allergies, through: :patient_allergies
+  has_many :visits, dependent: :nullify
+  has_many :sick_leaves, dependent: :nullify
 
   has_many :patient_sick_leave, dependent: :destroy
   has_many :sick_leaves, through: :patient_sick_leave
