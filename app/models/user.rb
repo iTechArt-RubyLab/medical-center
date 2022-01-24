@@ -34,6 +34,10 @@ class User < ApplicationRecord
 
   has_many :user_categories, dependent: :destroy
   has_many :categories, through: :user_categories
+
+  has_many :user_sick_leave, dependent: :destroy
+  has_many :sick_leaves, through: :user_sick_leave
+
   has_many :visits, dependent: :nullify
   has_many :sick_leaves, dependent: :nullify
 

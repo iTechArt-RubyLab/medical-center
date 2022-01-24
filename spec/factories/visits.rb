@@ -25,13 +25,16 @@
 #  fk_rails_...  (user_id => users.id)
 #
 FactoryBot.define do
+  sick_leave = FactoryBot.create(:sick_leave)
+  user = sick_leave.user
+  patient = sick_leave.patient
+
   factory :visit do
     cabinet { Faker::Number.number(digits: 3) }
-    # doctor_id {  } I do not have these models as they are made by other developers
-    # patient_id {  } I do not have these models as they are made by other developers
+    user { user }
+    patient { patient }
     date { 10.days.from_now }
-    # birthday {  } I do not have these models as they are made by other developers
     notes { Faker::Lorem.sentence(word_count: rand(2..10)) }
-    sick_leave_id { create(:sick_leave).id }
+    sick_leave { sick_leave }
   end
 end
