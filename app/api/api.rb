@@ -3,13 +3,13 @@ class API < Grape::API
   prefix :api
   version 'v1', :path
 
-  before do
-    authenticate!
-  end
+  # before do
+  #   authenticate!
+  # end
 
   helpers do
     def current_user
-      user = User.where(authentication_token: request.headers['Authorization']).first
+      user = User.find_by(authentication_token: request.headers['Authorization'])
       if user
         @current_user = user
       else
@@ -24,4 +24,5 @@ class API < Grape::API
 
   mount V1::Sessions
   mount V1::Users
+  mount V1::Registrations
 end

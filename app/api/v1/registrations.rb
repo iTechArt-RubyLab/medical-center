@@ -1,26 +1,35 @@
 module V1
-  class Sessions < API
+  class Registrations < API
     version 'v1', using: :path
     format :json
     prefix :api
-    resource :sessions do
+
+    resource :registrations do
       desc 'Authenticate user and return user object / access token'
 
       params do
         requires :email, type: String, desc: 'User email'
         requires :password, type: String, desc: 'User Password'
+        requires :cabinet_number, type: String, desc: 'User Password'
+        requires :birthdate, type: Date, desc: 'User Password'
+        requires :phone_number, type: String, desc: 'User Password'
+        requires :full_name, type: String, desc: 'User Password'
       end
 
       post do
         email = params[:email]
         password = params[:password]
+        params[:cabinet_number]
+        params[:birthdate]
+        params[:full_name]
+        params[:phone_number]
 
         if email.nil? || password.nil?
           error!({ error_code: 404, error_message: 'Invalid Email or Password.' }, 401)
           return
         end
 
-        user = User.find_by(email: email.downcase)
+        user = User.create(params)
         if user.nil?
           error!({ error_code: 404, error_message: 'Invalid Email or Password.' }, 401)
           return
