@@ -1,3 +1,7 @@
+require 'rake'
+
+Rake::Task['db:truncate_all'].invoke
+
 FactoryBot.create(:diagnosis, :tuberculosis)
 FactoryBot.create(:diagnosis, :bronchitis)
 FactoryBot.create(:diagnosis, :tonsillitis)
