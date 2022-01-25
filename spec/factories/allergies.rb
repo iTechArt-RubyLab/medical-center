@@ -13,7 +13,7 @@
 #
 FactoryBot.define do
   factory :allergy do
-    name { Faker::Cannabis.cannabinoid }
+    name { Faker::Lorem.unique.word }
 
     trait :sweets do
       name { 'Allergy to sweets' }

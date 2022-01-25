@@ -15,7 +15,7 @@
 #
 FactoryBot.define do
   factory :diagnosis do
-    name { Faker::Lorem.word }
+    name { Faker::Lorem.unique.word }
     symptom { Faker::Lorem.sentence(word_count: rand(2..10)) }
     medication_list { Faker::Lorem.sentence(word_count: rand(2..10)) }
 
