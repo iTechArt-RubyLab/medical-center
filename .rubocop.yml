@@ -22,8 +22,11 @@ Style/FrozenStringLiteralComment:
 
 
 Metrics/BlockLength:
-  Max: 50
+  Max: 20
   IgnoredMethods:
     - context
     - describe
     - it
+  Exclude:
+    - '**/**/registrations.rb'
+    - '**/**/sessions.rb'
