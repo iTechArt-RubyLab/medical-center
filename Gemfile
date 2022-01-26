@@ -5,7 +5,6 @@ ruby '3.0.3'
 
 gem 'aasm', '~> 5.2'
 gem 'devise', '~> 4.8'
-gem 'devise_token_auth', '~> 1.2'
 gem 'grape-entity', '~> 0.10.1'
 gem 'email_validator', '~> 2.2', '>= 2.2.3'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
@@ -17,6 +16,7 @@ gem 'phonelib', '~> 0.5.4'
 gem 'puma', '~> 5.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
+gem 'simple_command', '~> 0.1.0'
 gem 'simple_token_authentication', '~> 1.17'
 gem 'validates_timeliness', '~> 6.0.0.beta2'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
