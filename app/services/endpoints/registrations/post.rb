@@ -23,13 +23,17 @@ module Endpoints
         if user.save
           { status: 'ok', auth_token: user.authentication_token }
         else
-          user.errors.full_messages.each do |error|
-            errors.add(:base, error)
-          end
+          error_message
         end
       end
 
       private
+
+      def error_message
+        user.errors.full_messages.each do |error|
+          errors.add(:base, error)
+        end
+      end
 
       def validations
         password_validation && email_validation
