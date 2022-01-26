@@ -14,6 +14,7 @@ gem 'pg', '~> 1.3.0.rc3'
 gem 'phonelib', '~> 0.5.4'
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
+gem 'pundit', '~> 2.1.1'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
 gem 'simple_command', '~> 0.1.0'
@@ -41,7 +42,7 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'grape'
   gem 'rspec-rails', '~> 5.0.0'
-  gem "factory_bot_rails"
+  gem "factory_bot_rails", require: false
   gem 'faker', '~> 2.19'
 end
 
