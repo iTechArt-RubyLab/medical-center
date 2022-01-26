@@ -22,13 +22,10 @@
 #  fk_rails_...  (user_id => users.id)
 #
 FactoryBot.define do
-  doctor = User.first.nil? ? create(:user) : User.first
-  patient = Patient.first.nil? ? create(:patient) : Patient.first
-
   factory :sick_leave do
     destination { Faker::Company.name }
-    user { doctor }
-    patient { patient }
+    user { create(:user) }
+    patient { create(:patient) }
     started_at { 5.days.from_now }
     ended_at { 10.days.from_now }
   end

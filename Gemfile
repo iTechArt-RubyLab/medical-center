@@ -17,6 +17,7 @@ gem 'phonelib', '~> 0.5.4'
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
 gem 'pry'
+gem 'pundit', '~> 2.1.1'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
 gem 'simple_token_authentication', '~> 1.17'

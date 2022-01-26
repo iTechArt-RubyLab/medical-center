@@ -3,10 +3,6 @@ class API < Grape::API
   prefix :api
   version 'v1', :path
 
-  # before do
-  #   authenticate!
-  # end
-
   helpers do
     def current_user
       user = User.find_by(authentication_token: request.headers['Authorization'])
@@ -19,6 +15,10 @@ class API < Grape::API
 
     def authenticate!
       error!('401 Unauthorized', 401) unless current_user
+    end
+
+    def host
+      Rails.env.production? ? 'morning-plains-26206.herokuapp.com' : 'http://localhost:3000'
     end
   end
 

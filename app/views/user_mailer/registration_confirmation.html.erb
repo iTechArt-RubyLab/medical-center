@@ -10,8 +10,7 @@
     <h1>Hi, <%= @user.full_name %>!!!</h1>
     <p>
       Thanks for registering! To confirm your registration click the URL below.
-      <%# confirm_email_user_url(@user.confirm_token) %>
-      <%= "http://localhost:3000/api/v1/confirmations?confirm_token=#{@user.confirm_token}&id=#{@user.id}"%>
+      <%= "#{@host}/api/v1/confirmations?confirm_token=#{@user.confirm_token}"%>
     </p>
     <p>Thanks, have a great day!</p>
   </body>

@@ -36,8 +36,8 @@ FactoryBot.define do
   factory :user do
     full_name { Faker::Name.name }
     role { 'common' }
-    phone_number { "+375(29)#{Faker::Number.number(digits: 7)}" }
-    email { Faker::Internet.email }
+    phone_number { "+375(29)#{Faker::Number.unique.number(digits: 7)}" }
+    email { Faker::Internet.unique.email }
     status { 'working' }
     password { '123456' }
     birthdate { Faker::Date.between(from: '1900-01-01', to: Time.zone.today) }
