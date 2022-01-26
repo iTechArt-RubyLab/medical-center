@@ -27,3 +27,6 @@ Metrics/BlockLength:
     - context
     - describe
     - it
+  Exclude:
+    - '**/**/registrations.rb'
+    - '**/**/sessions.rb'
