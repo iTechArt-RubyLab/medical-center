@@ -3,6 +3,7 @@ module V1
     version 'v1', using: :path
     format :json
     prefix :api
+    # rubocop:disable Metrics/BlockLength
     resource :sessions do
       desc 'Authenticate user and return user object / access token'
 
@@ -12,27 +13,12 @@ module V1
       end
 
       post do
-        email = params[:email]
-        password = params[:password]
+        service_answer = Endpoints::Sessions::Post.new(params: params).call
 
-        if email.nil? || password.nil?
-          error!({ error_code: 404, error_message: 'Invalid Email or Password.' }, 401)
-          return
-        end
-
-        user = User.find_by(email: email.downcase)
-        if user.nil?
-          error!({ error_code: 404, error_message: 'Invalid Email or Password.' }, 401)
-          return
-        end
-
-        if user.valid_password?(password)
-          user.ensure_authentication_token
-          user.save
-          { status: 'ok', auth_token: user.authentication_token }
+        if service_answer.success?
+          service_answer.result
         else
-          error!({ error_code: 404, error_message: 'Invalid Email or Password.' }, 401)
-          return
+          error!(service_answer.errors.full_messages.to_sentence)
         end
       end
 
@@ -45,12 +31,12 @@ module V1
         user = User.find_by(authentication_token: auth_token)
         if user.nil?
           error!({ error_code: 404, error_message: 'Invalid access token.' }, 401)
-          return
         else
           user.reset_authentication_token
           { status: 'ok' }
         end
       end
     end
+    # rubocop:enable Metrics/BlockLength
   end
 end

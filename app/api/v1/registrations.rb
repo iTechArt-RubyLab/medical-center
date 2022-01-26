@@ -3,45 +3,27 @@ module V1
     version 'v1', using: :path
     format :json
     prefix :api
-
+    # rubocop:disable Metrics/BlockLength
     resource :registrations do
       desc 'Authenticate user and return user object / access token'
 
       params do
         requires :email, type: String, desc: 'User email'
-        requires :password, type: String, desc: 'User Password'
-        requires :cabinet_number, type: String, desc: 'User Password'
-        requires :birthdate, type: Date, desc: 'User Password'
-        requires :phone_number, type: String, desc: 'User Password'
-        requires :full_name, type: String, desc: 'User Password'
+        requires :password, type: String, desc: 'User password'
+        requires :cabinet_number, type: String, desc: 'User cabinet number'
+        requires :birthdate, type: Date, desc: 'User birthdate'
+        requires :phone_number, type: String, desc: 'User phone number'
+        requires :full_name, type: String, desc: 'User full name'
+        requires :password_confirmation, type: String, desc: 'User password confirmation'
       end
 
       post do
-        email = params[:email]
-        password = params[:password]
-        params[:cabinet_number]
-        params[:birthdate]
-        params[:full_name]
-        params[:phone_number]
+        service_answer = Endpoints::Registrations::Post.new(params: params).call
 
-        if email.nil? || password.nil?
-          error!({ error_code: 404, error_message: 'Invalid Email or Password.' }, 401)
-          return
-        end
-
-        user = User.create(params)
-        if user.nil?
-          error!({ error_code: 404, error_message: 'Invalid Email or Password.' }, 401)
-          return
-        end
-
-        if user.valid_password?(password)
-          user.ensure_authentication_token
-          user.save
-          { status: 'ok', auth_token: user.authentication_token }
+        if service_answer.success?
+          service_answer.result
         else
-          error!({ error_code: 404, error_message: 'Invalid Email or Password.' }, 401)
-          return
+          error!(service_answer.errors.full_messages.to_sentence)
         end
       end
 
@@ -51,15 +33,15 @@ module V1
       end
       delete ':auth_token' do
         auth_token = params[:auth_token]
-        user = User.find_by(authentication_token: auth_token)
-        if user.nil?
+        @user = User.find_by(authentication_token: auth_token)
+        if @user.nil?
           error!({ error_code: 404, error_message: 'Invalid access token.' }, 401)
-          return
         else
-          user.reset_authentication_token
+          @user.reset_authentication_token
           { status: 'ok' }
         end
       end
     end
+    # rubocop:enable Metrics/BlockLength
   end
 end
