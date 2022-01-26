@@ -40,7 +40,7 @@ module Endpoints
       end
 
       def password_validation
-        errors.add(:base, 'Invalid Email or Password.') unless user.valid_password?(password)
+        errors.add(:base, 'Invalid Email or Password.') unless user&.valid_password?(password)
       end
 
       def email_validation
