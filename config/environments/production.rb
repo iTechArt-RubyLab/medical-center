@@ -62,7 +62,22 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "medical_center_production"
 
+  config.action_mailer.raise_delivery_errors = false
   config.action_mailer.perform_caching = false
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.deliveries = 
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default_url_options = { host: 'morning-plains-26206.herokuapp.com' }
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.gmail.com',
+    port: 587,
+    domain: 'smtp.gmail.com',
+    enable_starttls_auto: true,
+    user_name: ENV['email_user_name'],
+    password: ENV['email_password'],
+    openssl_verify_mode: 'none',
+    authentication: :login, 
+  }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
