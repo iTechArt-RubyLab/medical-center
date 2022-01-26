@@ -13,6 +13,7 @@ gem 'pg', '~> 1.3.0.rc3'
 gem 'phonelib', '~> 0.5.4'
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
+gem 'pundit', '~> 2.1.1'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
 gem 'validates_timeliness', '~> 6.0.0.beta2'
