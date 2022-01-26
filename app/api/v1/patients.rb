@@ -1,7 +1,6 @@
 module V1
   class Patients < API
     resources :patients do
-
       desc 'Return all patients'
       get do
         @patients = Patient.all
