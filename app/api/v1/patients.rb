@@ -10,12 +10,10 @@ module V1
       desc 'Return a specific patient'
       route_param :id do
         get do
-          begin
-            patient = Patient.find(params[:id])
-            present patient, with: Entities::Patient
-          rescue
-            error!({ error_code: 404, error_message: 'Patient not found' })
-          end
+          patient = Patient.find(params[:id])
+          present patient, with: Entities::Patient
+        rescue ActiveRecord::RecordNotFound
+          error!({ error_code: 404, error_message: 'Patient not found' })
         end
       end
 
@@ -40,20 +38,18 @@ module V1
           notes: params[:notes],
           telephone_number: params[:telephone_number],
           passport_id: params[:passport_id],
-          allergies_additional: params[:allergies_additional],
+          allergies_additional: params[:allergies_additional]
         )
         params[:allergies].split(/,/).each do |allergy_id|
-          begin
-            patient.allergies << Allergy.find(allergy_id)
-          rescue
-            error!({ error_code: 404, error_message: 'Invalid allergies' })
-          end
+          patient.allergies << Allergy.find(allergy_id)
+        rescue ActiveRecord::RecordNotFound
+          error!({ error_code: 404, error_message: 'Invalid allergies' })
         end
         if patient.valid?
           patient.save
           redirect "/api/v1/patients/#{patient.id}"
         else
-          error!({ error_code: 404, error_message: "#{patient.errors.full_messages.to_sentence}" })
+          error!({ error_code: 404, error_message: patient.errors.full_messages.to_sentence })
         end
       end
 
@@ -75,14 +71,16 @@ module V1
       delete do
         begin
           patient = Patient.find(params[:id])
-        rescue
+        rescue ActiveRecord::RecordNotFound
           error!({ error_code: 404, error_message: 'Patient not found' })
         end
         begin
           patient.destroy!
           redirect '/api/v1/patients'
+          # rubocop:disable Style/RescueStandardError
         rescue
-          error!({ error_code: 404, error_message: 'Patient cannot be deleted' })
+          # rubocop:enable Style/RescueStandardError
+          error!({ error_code: 404, error_message: 'Something went wrong while deleting a patient' })
         end
       end
     end

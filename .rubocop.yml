@@ -27,4 +27,8 @@ Metrics/BlockLength:
     - context
     - describe
     - it
-
+    - resources
+    - get
+    - post
+    - delete
+    - params
