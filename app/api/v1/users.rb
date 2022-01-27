@@ -14,11 +14,6 @@ module V1
           { user: user }
         end
       end
-      desc 'create a new song'
-      params do
-        requires :email, type: String
-        requires :password, type: String
-      end
     end
   end
 end
