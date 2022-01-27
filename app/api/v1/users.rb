@@ -19,9 +19,6 @@ module V1
         requires :email, type: String
         requires :password, type: String
       end
-      post do
-        User.create!({ email: params[:email], password: params[:password] })
-      end
     end
   end
 end
