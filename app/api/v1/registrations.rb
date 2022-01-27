@@ -3,7 +3,6 @@ module V1
     version 'v1', using: :path
     format :json
     prefix :api
-    # rubocop:disable Metrics/BlockLength
     resource :registrations do
       desc 'Authenticate user and return user object / access token'
 
