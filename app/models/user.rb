@@ -3,6 +3,7 @@
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
+#  authentication_token   :string(30)
 #  birthdate              :date             not null
 #  cabinet_number         :string           not null
 #  email                  :string           default(""), not null
@@ -19,6 +20,7 @@
 #
 # Indexes
 #
+#  index_users_on_authentication_token  (authentication_token) UNIQUE
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_phone_number          (phone_number) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
