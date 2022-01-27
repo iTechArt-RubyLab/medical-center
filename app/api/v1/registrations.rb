@@ -3,7 +3,6 @@ module V1
     version 'v1', using: :path
     format :json
     prefix :api
-    # rubocop:disable Metrics/BlockLength
     resource :registrations do
       desc 'Authenticate user and return user object / access token'
 
@@ -26,22 +25,6 @@ module V1
           error!(service_answer.errors.full_messages.to_sentence)
         end
       end
-
-      desc 'Destroy the access token'
-      params do
-        requires :auth_token, type: String, desc: 'User Access Token'
-      end
-      delete ':auth_token' do
-        auth_token = params[:auth_token]
-        @user = User.find_by(authentication_token: auth_token)
-        if @user.nil?
-          error!({ error_code: 404, error_message: 'Invalid access token.' }, 401)
-        else
-          @user.reset_authentication_token
-          { status: 'ok' }
-        end
-      end
     end
-    # rubocop:enable Metrics/BlockLength
   end
 end

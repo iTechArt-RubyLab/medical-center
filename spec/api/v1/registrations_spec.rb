@@ -15,7 +15,7 @@ RSpec.describe 'registrations', type: :request do
   end
 
   describe 'POST /api/v1/registrations' do
-    context 'when signup params is valid' do
+    context 'when signup params are valid' do
       before do
         post sign_up_url, params: sign_up_params
       end
@@ -28,7 +28,7 @@ RSpec.describe 'registrations', type: :request do
       end
     end
 
-    context 'when signup params is invalid' do
+    context 'when signup params are invalid' do
       let(:sign_up_params) do
         {
           email: 'user1@mail.ru',
