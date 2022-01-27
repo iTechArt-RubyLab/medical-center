@@ -3,10 +3,6 @@ class API < Grape::API
   prefix :api
   version 'v1', :path
 
-  # before do
-  #   authenticate!
-  # end
-
   helpers do
     def current_user
       user = User.find_by(authentication_token: request.headers['Authorization'])

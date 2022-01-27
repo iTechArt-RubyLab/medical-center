@@ -13,14 +13,14 @@ module Endpoints
       end
 
       def call
-        @user = User.find_by(email: params[:email])
+        @user = User.find_by(email: email)
 
         validations
 
         return if errors.present?
 
         user.ensure_authentication_token
-        if user.save
+        if user
           { status: 'ok', auth_token: user.authentication_token }
         else
           error_message
