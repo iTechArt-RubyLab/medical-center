@@ -3,9 +3,9 @@ class API < Grape::API
   prefix :api
   version 'v1', :path
 
-  # before do
-  #   authenticate!
-  # end
+  before do
+    authenticate!
+  end
 
   helpers do
     def current_user
