@@ -43,7 +43,7 @@ module V1
         params[:allergies].split(/,/).each do |allergy_id|
           patient.allergies << Allergy.find(allergy_id)
         rescue ActiveRecord::RecordNotFound
-          error!({ error_code: 404, error_message: 'Invalid allergies' })
+          error!({ error_code: 404, error_message: 'Invalid data of allergies' })
         end
         if patient.valid?
           patient.save
@@ -53,16 +53,50 @@ module V1
         end
       end
 
-      # desc 'Update an existing patient'
-      # post do
-      #   begin
-      #     patient = Patient.find(params[:id])
-      #   rescue
-      #     error!({ error_code: 404, error_message: 'Patient not found' })
-      #   end
-      #   present patient, with: Entities::Patient
-      #   patient.update(params)
-      # end
+      desc 'Update an existing patient'
+      route_param :id do
+        params do
+          requires :address
+          requires :date_of_birth
+          requires :email
+          requires :full_name
+          requires :notes
+          requires :telephone_number
+          requires :passport_id
+          requires :allergies_additional
+          requires :allergies
+        end
+        put do
+          begin
+            patient = Patient.find(params[:id])
+          rescue ActiveRecord::RecordNotFound
+            error!({ error_code: 404, error_message: 'Patient not found' })
+          end
+          checked_allergies = []
+          unless params[:allergies].nil?
+            params[:allergies].split(/,/).each do |allergy_id|
+              checked_allergies << Allergy.find(allergy_id)
+            rescue ActiveRecord::RecordNotFound
+              error!({ error_code: 404, error_message: 'Invalid data of allergies' })
+            end
+          end
+          if patient.update(
+            address: params[:address],
+            date_of_birth: params[:date_of_birth],
+            email: params[:email],
+            full_name: params[:full_name],
+            notes: params[:notes],
+            telephone_number: params[:telephone_number],
+            passport_id: params[:passport_id],
+            allergies_additional: params[:allergies_additional],
+            allergies: checked_allergies
+          )
+            present patient, with: Entities::Patient
+          else
+            error!({ error_code: 404, error_message: patient.errors.full_messages.to_sentence })
+          end
+        end
+      end
 
       desc 'Delete patient'
       params do
