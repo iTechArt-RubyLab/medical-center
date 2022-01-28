@@ -7,6 +7,7 @@ gem 'aasm', '~> 5.2'
 gem 'devise', '~> 4.8'
 gem 'grape-entity', '~> 0.10.1'
 gem 'email_validator', '~> 2.2', '>= 2.2.3'
+gem "figaro"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.4', '>= 6.1.4.4'
 # Use sqlite3 as the database for Active Record
@@ -14,6 +15,7 @@ gem 'pg', '~> 1.3.0.rc3'
 gem 'phonelib', '~> 0.5.4'
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
+gem 'pry'
 gem 'pundit', '~> 2.1.1'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
@@ -60,6 +62,7 @@ group :development do
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
+  gem 'grape_on_rails_routes'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

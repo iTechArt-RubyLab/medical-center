@@ -1,5 +1,7 @@
 module V1
   class Registrations < API
+    helpers ::V1::Helpers::APIHelpers
+
     version 'v1', using: :path
     format :json
     prefix :api
@@ -17,13 +19,16 @@ module V1
       end
 
       post do
-        service_answer = Endpoints::Registrations::Post.new(params: params).call
+        email = params[:email]
+        password = params[:password]
 
-        if service_answer.success?
-          service_answer.result
-        else
-          error!(service_answer.errors.full_messages.to_sentence)
-        end
+        error!({ error_code: 404, error_message: 'Invalid Email or Password.' }, 401) if email.nil? || password.nil?
+
+        user = User.create(params)
+        user.ensure_authentication_token
+
+        UserMailer.with(user: user, host: host).registration_confirmation.deliver
+        { status: 'ok', auth_token: user.authentication_token } if user
       end
     end
   end
