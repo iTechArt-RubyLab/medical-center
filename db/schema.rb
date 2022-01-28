@@ -145,13 +145,9 @@ ActiveRecord::Schema.define(version: 2022_01_25_121635) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "status"
     t.string "authentication_token", limit: 30
-    t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
     t.boolean "email_confirmed", default: false
     t.string "confirm_token"
     t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
-    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["phone_number"], name: "index_users_on_phone_number", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -186,14 +182,14 @@ ActiveRecord::Schema.define(version: 2022_01_25_121635) do
   add_foreign_key "patient_allergies", "allergies"
   add_foreign_key "patient_allergies", "patients"
   add_foreign_key "patient_sick_leaves", "patients"
-  add_foreign_key "patient_sick_leaves", "sick_leaves", column: "sick_leave_id"
+  add_foreign_key "patient_sick_leaves", "sick_leaves"
   add_foreign_key "sick_leaves", "patients"
   add_foreign_key "sick_leaves", "users"
   add_foreign_key "user_categories", "categories"
   add_foreign_key "user_categories", "users"
-  add_foreign_key "user_sick_leaves", "sick_leaves", column: "sick_leave_id"
+  add_foreign_key "user_sick_leaves", "sick_leaves"
   add_foreign_key "user_sick_leaves", "users"
   add_foreign_key "visits", "patients"
-  add_foreign_key "visits", "sick_leaves", column: "sick_leave_id"
+  add_foreign_key "visits", "sick_leaves"
   add_foreign_key "visits", "users"
 end
