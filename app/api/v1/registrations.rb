@@ -1,5 +1,7 @@
 module V1
   class Registrations < API
+    helpers ::V1::Helpers::APIHelpers
+
     version 'v1', using: :path
     format :json
     prefix :api
@@ -24,6 +26,7 @@ module V1
 
         user = User.create(params)
         user.ensure_authentication_token
+
         UserMailer.with(user: user, host: host).registration_confirmation.deliver
         { status: 'ok', auth_token: user.authentication_token } if user
       end

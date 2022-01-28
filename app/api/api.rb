@@ -16,10 +16,6 @@ class API < Grape::API
     def authenticate!
       error!('401 Unauthorized', 401) unless current_user
     end
-
-    def host
-      Rails.env.production? ? 'morning-plains-26206.herokuapp.com' : 'http://localhost:3000'
-    end
   end
 
   mount V1::Sessions
