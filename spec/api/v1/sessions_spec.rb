@@ -14,7 +14,7 @@ RSpec.describe 'sessions', type: :request do
   end
 
   describe 'POST /api/v1/sessions' do
-    context 'when signin params is valid' do
+    context 'when signin params are valid' do
       before do
         post sign_in_url, params: sign_in_params
       end
@@ -27,7 +27,7 @@ RSpec.describe 'sessions', type: :request do
       end
     end
 
-    context 'when signup params is invalid' do
+    context 'when signup params ar invalid' do
       let(:sign_in_params) do
         {
           email: 'user1@mail.ru',

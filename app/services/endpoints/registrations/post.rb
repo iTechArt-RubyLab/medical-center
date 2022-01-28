@@ -44,7 +44,7 @@ module Endpoints
       end
 
       def email_validation
-        errors.add(:base, 'Invalid Email or Password.') unless email.nil? || user.nil?
+        errors.add(:base, 'Invalid Email or Password.') unless email.nil?
       end
     end
   end
