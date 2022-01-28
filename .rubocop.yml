@@ -31,4 +31,6 @@ Metrics/BlockLength:
     - get
     - post
     - delete
+    - put
+    - route_param
     - params

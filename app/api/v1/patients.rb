@@ -19,15 +19,8 @@ module V1
 
       desc 'Create a new patient'
       params do
-        requires :address
-        requires :date_of_birth
-        requires :email
-        requires :full_name
-        requires :notes
-        requires :telephone_number
-        requires :passport_id
-        requires :allergies_additional
-        requires :allergies
+        requires :address, :date_of_birth, :email, :full_name, :notes, :telephone_number,
+                 :passport_id, :allergies_additional, :allergies
       end
       post do
         patient = Patient.create(
@@ -56,15 +49,8 @@ module V1
       desc 'Update an existing patient'
       route_param :id do
         params do
-          requires :address
-          requires :date_of_birth
-          requires :email
-          requires :full_name
-          requires :notes
-          requires :telephone_number
-          requires :passport_id
-          requires :allergies_additional
-          requires :allergies
+          requires :address, :date_of_birth, :email, :full_name, :notes, :telephone_number,
+                   :passport_id, :allergies_additional, :allergies
         end
         put do
           begin
@@ -73,12 +59,10 @@ module V1
             error!({ error_code: 404, error_message: 'Patient not found' })
           end
           checked_allergies = []
-          unless params[:allergies].nil?
-            params[:allergies].split(/,/).each do |allergy_id|
-              checked_allergies << Allergy.find(allergy_id)
-            rescue ActiveRecord::RecordNotFound
-              error!({ error_code: 404, error_message: 'Invalid data of allergies' })
-            end
+          params[:allergies]&.split(/,/)&.each do |allergy_id|
+            checked_allergies << Allergy.find(allergy_id)
+          rescue ActiveRecord::RecordNotFound
+            error!({ error_code: 404, error_message: 'Invalid data of allergies' })
           end
           if patient.update(
             address: params[:address],
