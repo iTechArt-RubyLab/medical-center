@@ -28,6 +28,10 @@ gem 'webpacker', '~> 5.0'
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
+gem "factory_bot_rails", require: false
+gem 'faker', '~> 2.19'
+gem 'grape'
+
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
@@ -42,10 +46,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'grape'
   gem 'rspec-rails', '~> 5.0.0'
-  gem "factory_bot_rails", require: false
-  gem 'faker', '~> 2.19'
 end
 
 group :development do
