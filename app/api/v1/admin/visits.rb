@@ -11,24 +11,22 @@ module V1
       helpers do
         def visit
           @visit ||= Visit.find(params[:id])
-  
         rescue ActiveRecord::RecordNotFound => e
           error!({ error_messages: e.message }, 422)
         end
       end
 
       resources :visits do
-        
         desc 'Return all visits'
         get do
           @visits = Visit.all
           present @visits
         end
-  
+
         desc 'Return specific visit'
         route_param :id, type: Integer do
           get do
-            { visit: visit }
+            visit
           end
         end
 
@@ -52,7 +50,11 @@ module V1
         desc 'Delete a specific visit'
         route_param :id do
           delete do
-            visit.destroy
+            if visit.destroy
+              present visit
+            else
+              error!({ error_message: visit.errors.full_messages.join(', ') }, 500)
+            end
           end
         end
       end

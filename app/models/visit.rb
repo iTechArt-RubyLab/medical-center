@@ -9,7 +9,7 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  patient_id    :bigint           not null
-#  sick_leave_id :bigint           not null
+#  sick_leave_id :bigint
 #  user_id       :bigint           not null
 #
 # Indexes
@@ -27,7 +27,7 @@
 class Visit < ApplicationRecord
   belongs_to :patient
   belongs_to :user
-  belongs_to :sick_leave
+  belongs_to :sick_leave, optional: true
   has_many :visits_diagnoses, dependent: :destroy
   has_many :diagnoses, through: :visits_diagnoses
 

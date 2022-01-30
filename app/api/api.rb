@@ -19,11 +19,11 @@ class API < Grape::API
   end
 
   mount V1::Sessions
-  mount V1::Users
   mount V1::Registrations
   mount V1::Confirmations
   mount V1::Visits
   namespace :admin do
+    mount V1::Admin::Users
     mount V1::Admin::Visits
   end
 end

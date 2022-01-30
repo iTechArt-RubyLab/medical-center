@@ -12,17 +12,15 @@ module V1
       def current_user_visits
         Visit.where(user_id: current_user.id)
       end
-  
+
       def find_visit_by_id(id)
         current_user_visits.find(id)
-
       rescue ActiveRecord::RecordNotFound => e
         error!({ error_messages: e.message }, 422)
       end
     end
 
     resources :visits do
-      
       post do
         visit = Visit.new(params)
         visit.user = current_user

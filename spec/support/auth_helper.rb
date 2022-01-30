@@ -1,7 +1,5 @@
 module AuthHelper
-  def http_login
-    user = create :user
-
+  def headers(user)
     {
       Authorization: user.authentication_token
     }

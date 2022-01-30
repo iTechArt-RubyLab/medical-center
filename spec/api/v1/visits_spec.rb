@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe V1::Visits do
   include AuthHelper
-  
+
   let!(:current_user) { create :user }
   let!(:visit) { create :visit, user: current_user }
 
@@ -15,15 +15,12 @@ describe V1::Visits do
   end
 
   describe 'POST /api/v1/visits' do
-    let(:diagnosis) { create :diagnosis }
     let(:patient) { create :patient }
     let(:params) do
       {
         cabinet: '305',
         notes: 'kar-kar',
         date: '2022.02.23',
-       # diagnosis_ids: [diagnosis.id],
-        user_id: current_user.id,
         patient_id: patient.id
       }
     end
@@ -31,12 +28,17 @@ describe V1::Visits do
     it 'returns new current_users visit' do
       post '/api/v1/visits', params: params, headers: headers(current_user)
 
-      
-      binding.pry
-
       expected_id = Visit.last.id
 
       expect(JSON.parse(response.body)['id']).to eq expected_id
+    end
+  end
+
+  describe 'GET /api/v1/visits/:id' do
+    it 'returns current_users visits by id' do
+      get "/api/v1/visits/#{visit.id}", params: nil, headers: headers(current_user)
+
+      expect(JSON.parse(response.body)['id']).to eq visit.id
     end
   end
 end
