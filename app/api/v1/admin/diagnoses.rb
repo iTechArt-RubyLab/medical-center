@@ -2,11 +2,11 @@ module V1
   module Admin
     class Diagnoses < API
       desc 'create a new diagnosis'
-      params do
-        requires :name, type: String
-        requires :symptom, type: String
-        requires :medication_list, type: String
-      end
+      # params do
+      #   requires :name, type: String
+      #   requires :symptom, type: String
+      #   requires :medication_list, type: String
+      # end
 
       resources :diagnoses do
         
@@ -20,8 +20,10 @@ module V1
             diagnosis = Diagnosis.find(params[:id])
 
             diagnosis.update(params)
+            diagnosis
           end
         end
+
         desc 'Delete a specific diagnosis'
         route_param :id do
           delete do
