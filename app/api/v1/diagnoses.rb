@@ -1,11 +1,6 @@
 module V1
   class Diagnoses < API
     desc 'create a new diagnosis'
-    # params do
-    #   requires :name, type: String
-    #   requires :symptom, type: String
-    #   requires :medication_list, type: String
-    # end
 
     resources :diagnoses do
       desc 'Return all diagnoses'
