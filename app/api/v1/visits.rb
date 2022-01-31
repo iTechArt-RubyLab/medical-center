@@ -19,7 +19,7 @@ module V1
         error!({ error_messages: e.message }, 422)
       end
     end
-
+    # rubocop:disable Metrics/BlockLength
     resources :visits do
       post do
         visit = Visit.new(params)
@@ -58,5 +58,6 @@ module V1
         end
       end
     end
+    # rubocop:enable Metrics/BlockLength
   end
 end

@@ -7,7 +7,7 @@ module V1
           @users = User.all
           present @users, with: Entities::User
         end
-  
+
         desc 'Return specific user'
         route_param :id, type: Integer do
           get do
