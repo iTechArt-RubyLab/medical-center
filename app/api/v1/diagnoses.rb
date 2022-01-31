@@ -8,7 +8,6 @@ module V1
     # end
 
     resources :diagnoses do
-      
       desc 'Return all diagnoses'
       get do
         @diagnoses = Diagnosis.all

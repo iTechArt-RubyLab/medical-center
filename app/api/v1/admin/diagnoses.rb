@@ -9,7 +9,6 @@ module V1
       # end
 
       resources :diagnoses do
-        
         post do
           Diagnosis.create!(params)
         end
