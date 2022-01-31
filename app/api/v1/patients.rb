@@ -36,13 +36,13 @@ module V1
         params[:allergies].split(/,/).each do |allergy_id|
           patient.allergies << Allergy.find(allergy_id)
         rescue ActiveRecord::RecordNotFound
-          error!({ error_code: 404, error_message: 'Invalid data of allergies' })
+          error!({ error_code: 400, error_message: 'Invalid data of allergies' })
         end
         if patient.valid?
           patient.save
           redirect "/api/v1/patients/#{patient.id}"
         else
-          error!({ error_code: 404, error_message: patient.errors.full_messages.to_sentence })
+          error!({ error_code: 400, error_message: patient.errors.full_messages.to_sentence })
         end
       end
 
@@ -62,7 +62,7 @@ module V1
           params[:allergies]&.split(/,/)&.each do |allergy_id|
             checked_allergies << Allergy.find(allergy_id)
           rescue ActiveRecord::RecordNotFound
-            error!({ error_code: 404, error_message: 'Invalid data of allergies' })
+            error!({ error_code: 400, error_message: 'Invalid data of allergies' })
           end
           if patient.update(
             address: params[:address],
@@ -77,7 +77,7 @@ module V1
           )
             present patient, with: Entities::Patient
           else
-            error!({ error_code: 404, error_message: patient.errors.full_messages.to_sentence })
+            error!({ error_code: 400, error_message: patient.errors.full_messages.to_sentence })
           end
         end
       end
@@ -98,7 +98,7 @@ module V1
           # rubocop:disable Style/RescueStandardError
         rescue
           # rubocop:enable Style/RescueStandardError
-          error!({ error_code: 404, error_message: 'Something went wrong while deleting a patient' })
+          error!({ error_code: 500, error_message: 'Something went wrong while deleting a patient' })
         end
       end
     end
