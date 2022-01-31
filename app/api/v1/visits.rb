@@ -19,17 +19,10 @@ module V1
         error!({ error_messages: e.message }, 422)
       end
     end
-    # rubocop:disable Metrics/BlockLength
+
     resources :visits do
       post do
-        visit = Visit.new(params)
-        visit.user = current_user
-
-        if visit.save
-          present visit
-        else
-          error!({ error_message: visit.errors.full_messages.join(', ') }, 422)
-        end
+        current_user.visits.create!(params)
       end
 
       desc 'Update a specific visit'
@@ -58,6 +51,5 @@ module V1
         end
       end
     end
-    # rubocop:enable Metrics/BlockLength
   end
 end

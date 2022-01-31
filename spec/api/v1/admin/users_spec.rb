@@ -5,7 +5,7 @@ describe V1::Admin::Users do
 
   let(:current_user) { create :user }
 
-  describe 'GET /api/v1/admin/users' do
+  describe 'GET method' do
     it 'returns success code' do
       get '/api/v1/admin/users', params: nil, headers: headers(current_user)
 

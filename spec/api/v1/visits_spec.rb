@@ -3,10 +3,10 @@ require 'rails_helper'
 describe V1::Visits do
   include AuthHelper
 
-  let!(:current_user) { create :user }
-  let!(:visit) { create :visit, user: current_user }
+  let!(:current_user) { create(:user) }
+  let!(:visit) { create(:visit, user: current_user) }
 
-  describe 'GET /api/v1/visits' do
+  describe 'GET all visits' do
     it 'returns current_users visits' do
       get '/api/v1/visits', params: nil, headers: headers(current_user)
 
@@ -14,7 +14,7 @@ describe V1::Visits do
     end
   end
 
-  describe 'POST /api/v1/visits' do
+  describe 'POST method' do
     let(:patient) { create :patient }
     let(:params) do
       {
@@ -34,7 +34,7 @@ describe V1::Visits do
     end
   end
 
-  describe 'GET /api/v1/visits/:id' do
+  describe 'GET specific visit' do
     it 'returns current_users visits by id' do
       get "/api/v1/visits/#{visit.id}", params: nil, headers: headers(current_user)
 

@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-describe V1::Admin::Visits do
+describe V1::Admin::Visits, type: :request do
   include AuthHelper
 
-  let!(:current_user) { create :user }
-  let!(:visits) { create_list :visit, 2 }
+  let!(:current_user) { create(:user) }
+  let!(:visits) { create_list(:visit, 2) }
 
-  describe 'POST /api/v1/admin/visits' do
-    let(:patient) { create :patient }
-    let(:common_doctor) { create :user }
+  describe 'POST method' do
+    let(:patient) { create(:patient) }
+    let(:common_doctor) { create(:user) }
     let(:params) do
       {
         cabinet: '305',
@@ -21,13 +21,13 @@ describe V1::Admin::Visits do
 
     it 'returns created visit' do
       post '/api/v1/admin/visits', params: params, headers: headers(current_user)
-
-      expect(JSON.parse(response.body)['id']).to eq Visit.last.id
+      # test fields
+      expect(Visit.pluck(:id)).to include(JSON.parse(response.body)['id'])
     end
   end
 
-  describe 'PUT /api/v1/admin/visits/:id' do
-    let!(:visit) { create :visit }
+  describe 'PUT method' do
+    let(:visit) { create :visit }
     let(:note) { 'without any chances' }
     let(:params) do
       {
@@ -38,11 +38,11 @@ describe V1::Admin::Visits do
     it 'returns updated diagnosis' do
       put "/api/v1/admin/visits/#{visit.id}", params: params, headers: headers(current_user)
 
-      expect(JSON.parse(response.body)['notes']).to eq note
+      expect(note).to include(JSON.parse(response.body)['notes'])
     end
   end
 
-  describe 'DELETE /api/v1/admin/visits/:id' do
+  describe 'DELETE method' do
     it 'returns deleted visit' do
       delete "/api/v1/admin/visits/#{visits.first.id}", params: nil, headers: headers(current_user)
 
