@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'active_record'
 # rubocop:disable RSpec/MultipleExpectations
-RSpec.describe V1::Admin::Patients  , type: :request do
+RSpec.describe V1::Admin::Patients, type: :request do
   let(:patients_crud_url) { '/api/v1/admin/patients' }
   let(:patients_params) do
     {

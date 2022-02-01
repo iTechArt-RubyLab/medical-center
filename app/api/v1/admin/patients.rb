@@ -22,7 +22,7 @@ module V1
         desc 'Create a new patient'
         params do
           requires :address, :date_of_birth, :email, :full_name, :notes, :telephone_number,
-                  :passport_id, :allergies_additional, :allergies
+                   :passport_id, :allergies_additional, :allergies
         end
         post do
           patient = Patient.create(
@@ -52,7 +52,7 @@ module V1
         route_param :id do
           params do
             requires :address, :date_of_birth, :email, :full_name, :notes, :telephone_number,
-                    :passport_id, :allergies_additional, :allergies
+                     :passport_id, :allergies_additional, :allergies
           end
           put do
             begin
