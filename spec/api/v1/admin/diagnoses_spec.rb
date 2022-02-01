@@ -6,7 +6,7 @@ describe V1::Admin::Diagnoses do
   let!(:current_user) { create(:user) }
   let!(:diagnoses) { create_list(:diagnosis, 2) }
 
-  describe 'POST' do
+  describe 'POST#create' do
     let(:params) do
       {
         name: 'covid',
@@ -22,7 +22,7 @@ describe V1::Admin::Diagnoses do
     end
   end
 
-  describe 'PUT' do
+  describe 'PUT#update' do
     let!(:diagnosis) { create(:diagnosis) }
     let(:params) do
       {
@@ -37,7 +37,7 @@ describe V1::Admin::Diagnoses do
     end
   end
 
-  describe 'DELETE' do
+  describe 'DELETE#destroy' do
     it 'returns deleted diagnosis' do
       delete "/api/v1/admin/diagnoses/#{diagnoses.first.id}", params: nil, headers: headers(current_user)
 

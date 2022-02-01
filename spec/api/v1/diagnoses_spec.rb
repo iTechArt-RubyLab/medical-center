@@ -6,7 +6,7 @@ describe V1::Diagnoses do
   let!(:current_user) { create(:user) }
   let!(:diagnoses) { create_list(:diagnosis, 2) }
 
-  describe 'GET all diagnoses' do
+  describe 'GET#index all diagnoses' do
     it 'returns all diagnoses' do
       get '/api/v1/diagnoses', params: nil, headers: headers(current_user)
 
@@ -14,7 +14,7 @@ describe V1::Diagnoses do
     end
   end
 
-  describe 'GET specific diagnosis' do
+  describe 'GET#show specific diagnosis' do
     it 'returns diagnosis found by id' do
       get "/api/v1/diagnoses/#{diagnoses.first.id}", params: nil, headers: headers(current_user)
 
