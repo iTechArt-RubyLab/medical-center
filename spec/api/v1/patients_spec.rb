@@ -21,14 +21,10 @@ RSpec.describe 'patient', type: :request do
     create_list :patient, 5
   end
 
-  after do
-    Patient.destroy_all
-  end
-
   describe 'GET /api/v1/patients' do
     context 'when all records are requested' do
       before do
-        get patients_crud_url, params: nil
+        get patients_crud_url
       end
 
       it 'returns all patients' do
@@ -41,7 +37,7 @@ RSpec.describe 'patient', type: :request do
     context 'when record exists' do
       before do
         patient_url = "#{patients_crud_url}/#{Patient.all.sample.id}"
-        get patient_url, params: nil
+        get patient_url
       end
 
       it 'return patient' do
@@ -51,7 +47,7 @@ RSpec.describe 'patient', type: :request do
 
     context 'when the request is invalid' do
       before do
-        get "#{patients_crud_url}/abc", params: nil
+        get "#{patients_crud_url}/abc"
       end
 
       it 'server return error message' do
@@ -68,9 +64,9 @@ RSpec.describe 'patient', type: :request do
       end
 
       it 'create new patient and redirect to him' do
-        expect(response).to have_http_status(:ok)
-        # expect(JSON.parse(response.body)).to eq 'Error'
-        expect(JSON.parse(response.body)['passport_id']).to eq patients_params[:passport_id]
+        expect(response).to redirect_to(
+          "#{patients_crud_url}/#{Patient.find_by(passport_id: patients_params[:passport_id]).id}"
+        )
       end
     end
 
@@ -86,23 +82,81 @@ RSpec.describe 'patient', type: :request do
         expect(JSON.parse(response.body)['error_message']).to eq 'Passport has already been taken'
       end
     end
+
+    context 'when one of parameters missing' do
+      before do
+        missing_parameters_params = patients_params
+        missing_parameters_params.except!(:full_name)
+        post patients_crud_url, params: missing_parameters_params
+      end
+
+      it 'server return error message' do
+        expect(response).to have_http_status(:bad_request)
+      end
+    end
   end
-  # describe 'PUT /api/v1/patients/_id_' do
-  #   context '' do
-  #     before do
-  #     end
 
-  #     it '' do
-  #     end
-  #   end
+  describe 'PUT /api/v1/patients/_id_' do
+    context 'when params are valid' do
+      before do
+        patient = Patient.all.sample
+        put "#{patients_crud_url}/#{patient.id}", params: patients_params
+      end
 
-  #   context '' do
-  #     before do
-  #     end
+      it 'update patient and show him' do
+        expect(response).to have_http_status(:ok)
+        expect(JSON.parse(response.body)['passport_id']).to eq patients_params[:passport_id]
+      end
+    end
 
-  #     it '' do
-  #     end
-  #   end
-  # end
+    context 'when passport_id has already been used' do
+      before do
+        patient = Patient.all.sample
+        used_passport_id_params = patients_params
+        used_passport_id_params[:passport_id] = Patient.all.excluding(patient).sample.passport_id
+        put "#{patients_crud_url}/#{patient.id}", params: used_passport_id_params
+      end
+
+      it 'server return error message' do
+        expect(response).to have_http_status(:internal_server_error)
+        expect(JSON.parse(response.body)['error_message']).to eq 'Passport has already been taken'
+      end
+    end
+
+    context 'when one of parameters missing' do
+      before do
+        patient = Patient.all.sample
+        missing_parameters_params = patients_params
+        missing_parameters_params.except!(:full_name)
+        put "#{patients_crud_url}/#{patient.id}", params: missing_parameters_params
+      end
+
+      it 'server return error message' do
+        expect(response).to have_http_status(:bad_request)
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/patients/_id_' do
+    context 'when patient exist' do
+      before do
+        delete patients_crud_url, params: { id: Patient.all.sample.id }
+      end
+
+      it 'patient deleted and redirected' do
+        expect(response).to redirect_to(patients_crud_url)
+      end
+    end
+
+    context 'when patient does not exist' do
+      before do
+        delete patients_crud_url, params: { id: (Patient.last.id + 1) }
+      end
+
+      it 'server return error' do
+        expect(JSON.parse(response.body)['error_code']).to eq 404
+      end
+    end
+  end
 end
 # rubocop:enable RSpec/MultipleExpectations
