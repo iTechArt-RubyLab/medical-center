@@ -1,12 +1,6 @@
 module V1
   class Visits < API
     desc 'create a new visit'
-    # params do
-    #   requires :cabinet, type: String
-    #   requires :notes, type: String
-    #   requires :date, type: String
-    #   requires :diagnosis_ids, type: Array
-    # end
 
     helpers do
       def current_user_visits
@@ -40,8 +34,7 @@ module V1
 
       desc 'Return all visits'
       get do
-        @visits = current_user_visits
-        present @visits
+        present current_user_visits
       end
 
       desc 'Return specific visit'

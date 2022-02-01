@@ -5,7 +5,7 @@ module V1
 
       helpers do
         def visit
-          @visit ||= Visit.find(params[:id])
+          @visit = Visit.find(params[:id])
         end
       end
 

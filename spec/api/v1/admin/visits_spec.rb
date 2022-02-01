@@ -6,7 +6,7 @@ describe V1::Admin::Visits, type: :request do
   let!(:current_user) { create(:user) }
   let!(:visits) { create_list(:visit, 2) }
 
-  describe 'POST method' do
+  describe 'POST#create' do
     let(:patient) { create(:patient) }
     let(:common_doctor) { create(:user) }
     let(:params) do
@@ -21,12 +21,12 @@ describe V1::Admin::Visits, type: :request do
 
     it 'returns created visit' do
       post '/api/v1/admin/visits', params: params, headers: headers(current_user)
-      # test fields
+
       expect(Visit.pluck(:id)).to include(JSON.parse(response.body)['id'])
     end
   end
 
-  describe 'PUT method' do
+  describe 'PUT#update' do
     let(:visit) { create :visit }
     let(:note) { 'without any chances' }
     let(:params) do
@@ -42,7 +42,7 @@ describe V1::Admin::Visits, type: :request do
     end
   end
 
-  describe 'DELETE method' do
+  describe 'DELETE#destroy' do
     it 'returns deleted visit' do
       delete "/api/v1/admin/visits/#{visits.first.id}", params: nil, headers: headers(current_user)
 
