@@ -3,9 +3,11 @@ require 'rails_helper'
 describe V1::Users do
   include AuthHelper
 
-  describe 'GET /api/v1/users' do
+  let!(:current_user) { create(:user) }
+
+  describe 'GET#index' do
     it 'returns success code' do
-      get '/api/v1/users', params: nil, headers: http_login
+      get '/api/v1/users', params: nil, headers: headers(current_user)
 
       expect(response).to have_http_status(:ok)
     end
