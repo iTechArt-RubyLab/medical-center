@@ -25,5 +25,6 @@ class API < Grape::API
   namespace :admin do
     mount V1::Admin::Users
     mount V1::Admin::Visits
+    mount V1::Admin::Diagnoses
   end
 end
