@@ -22,4 +22,8 @@ class API < Grape::API
   mount V1::Users
   mount V1::Registrations
   mount V1::Confirmations
+  mount V1::SickLeaves
+  namespace :admin do
+    mount V1::Admin::SickLeaves
+  end
 end
