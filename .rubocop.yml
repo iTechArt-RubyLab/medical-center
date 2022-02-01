@@ -28,3 +28,14 @@ Metrics/BlockLength:
     - describe
     - it
 
+    - resources
+    - get
+    - post
+    - delete
+    - put
+    - route_param
+    - params
+
+
+
+
