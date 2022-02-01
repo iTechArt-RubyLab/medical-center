@@ -9,7 +9,7 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  patient_id    :bigint           not null
-#  sick_leave_id :bigint           not null
+#  sick_leave_id :bigint
 #  user_id       :bigint           not null
 #
 # Indexes

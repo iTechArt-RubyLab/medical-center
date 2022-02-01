@@ -9,7 +9,7 @@ class API < Grape::API
       if user
         @current_user = user
       else
-        false
+        error!({ error_message: 'You provided invalid token' }, 422)
       end
     end
 
@@ -19,10 +19,13 @@ class API < Grape::API
   end
 
   mount V1::Sessions
-  mount V1::Users
   mount V1::Registrations
   mount V1::Confirmations
+  mount V1::Visits
   namespace :admin do
+    mount V1::Admin::Users
+    mount V1::Admin::Visits
+    mount V1::Admin::Diagnoses
     mount V1::Admin::Patients
   end
 end
