@@ -1,5 +1,5 @@
 module AuthHelper
-  def http_login
+  def current_user
     user = create :user
 
     {

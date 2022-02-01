@@ -5,7 +5,7 @@ describe V1::Users do
 
   describe 'GET /api/v1/users' do
     it 'returns success code' do
-      get '/api/v1/users', params: nil, headers: http_login
+      get '/api/v1/users', params: nil, headers: current_user
 
       expect(response).to have_http_status(:ok)
     end

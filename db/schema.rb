@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_25_121635) do
+ActiveRecord::Schema.define(version: 2022_02_01_163152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,10 +106,6 @@ ActiveRecord::Schema.define(version: 2022_01_25_121635) do
     t.datetime "ended_at", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "user_id", null: false
-    t.bigint "patient_id", null: false
-    t.index ["patient_id"], name: "index_sick_leaves_on_patient_id"
-    t.index ["user_id"], name: "index_sick_leaves_on_user_id"
   end
 
   create_table "user_categories", force: :cascade do |t|
@@ -145,13 +141,9 @@ ActiveRecord::Schema.define(version: 2022_01_25_121635) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "status"
     t.string "authentication_token", limit: 30
-    t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
     t.boolean "email_confirmed", default: false
     t.string "confirm_token"
     t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
-    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["phone_number"], name: "index_users_on_phone_number", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -166,7 +158,8 @@ ActiveRecord::Schema.define(version: 2022_01_25_121635) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id", null: false
     t.bigint "patient_id", null: false
-    t.bigint "sick_leave_id", null: false
+    t.bigint "sick_leave_id"
+    t.datetime "next_visit_at"
     t.index ["patient_id"], name: "index_visits_on_patient_id"
     t.index ["sick_leave_id"], name: "index_visits_on_sick_leave_id"
     t.index ["user_id"], name: "index_visits_on_user_id"
@@ -174,10 +167,10 @@ ActiveRecord::Schema.define(version: 2022_01_25_121635) do
 
   create_table "visits_diagnoses", force: :cascade do |t|
     t.bigint "visit_id"
-    t.bigint "diagnose_id"
+    t.bigint "diagnosis_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["diagnose_id"], name: "index_visits_diagnoses_on_diagnose_id"
+    t.index ["diagnosis_id"], name: "index_visits_diagnoses_on_diagnosis_id"
     t.index ["visit_id"], name: "index_visits_diagnoses_on_visit_id"
   end
 
@@ -187,8 +180,6 @@ ActiveRecord::Schema.define(version: 2022_01_25_121635) do
   add_foreign_key "patient_allergies", "patients"
   add_foreign_key "patient_sick_leaves", "patients"
   add_foreign_key "patient_sick_leaves", "sick_leaves", column: "sick_leave_id"
-  add_foreign_key "sick_leaves", "patients"
-  add_foreign_key "sick_leaves", "users"
   add_foreign_key "user_categories", "categories"
   add_foreign_key "user_categories", "users"
   add_foreign_key "user_sick_leaves", "sick_leaves", column: "sick_leave_id"

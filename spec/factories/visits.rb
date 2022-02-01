@@ -5,11 +5,12 @@
 #  id            :bigint           not null, primary key
 #  cabinet       :string           not null
 #  date          :datetime         not null
+#  next_visit_at :datetime
 #  notes         :text
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  patient_id    :bigint           not null
-#  sick_leave_id :bigint           not null
+#  sick_leave_id :bigint
 #  user_id       :bigint           not null
 #
 # Indexes
