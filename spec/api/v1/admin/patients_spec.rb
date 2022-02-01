@@ -1,8 +1,8 @@
 require 'rails_helper'
 require 'active_record'
 # rubocop:disable RSpec/MultipleExpectations
-RSpec.describe 'patient', type: :request do
-  let(:patients_crud_url) { '/api/v1/patients' }
+RSpec.describe V1::Admin::Patients  , type: :request do
+  let(:patients_crud_url) { '/api/v1/admin/patients' }
   let(:patients_params) do
     {
       address: Faker::Address.full_address,
@@ -21,7 +21,7 @@ RSpec.describe 'patient', type: :request do
     create_list :patient, 5
   end
 
-  describe 'GET /api/v1/patients' do
+  describe 'GET /api/v1/admin/patients' do
     context 'when all records are requested' do
       before do
         get patients_crud_url
@@ -33,7 +33,7 @@ RSpec.describe 'patient', type: :request do
     end
   end
 
-  describe 'GET /api/v1/patients/_id_' do
+  describe 'GET /api/v1/admin/patients/_id_' do
     context 'when record exists' do
       before do
         patient_url = "#{patients_crud_url}/#{Patient.all.sample.id}"
@@ -57,7 +57,7 @@ RSpec.describe 'patient', type: :request do
     end
   end
 
-  describe 'POST /api/v1/patients/' do
+  describe 'POST /api/v1/admin/patients/' do
     context 'when params are valid' do
       before do
         post patients_crud_url, params: patients_params
@@ -96,7 +96,7 @@ RSpec.describe 'patient', type: :request do
     end
   end
 
-  describe 'PUT /api/v1/patients/_id_' do
+  describe 'PUT /api/v1/admin/patients/_id_' do
     context 'when params are valid' do
       before do
         patient = Patient.all.sample
@@ -137,7 +137,7 @@ RSpec.describe 'patient', type: :request do
     end
   end
 
-  describe 'DELETE /api/v1/patients/_id_' do
+  describe 'DELETE /api/v1/admin/patients/_id_' do
     context 'when patient exist' do
       before do
         delete patients_crud_url, params: { id: Patient.all.sample.id }
