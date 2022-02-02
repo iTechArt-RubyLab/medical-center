@@ -23,16 +23,7 @@ module V1
                    :passport_id, :allergies_additional, :allergies
         end
         post do
-          patient = Patient.create(
-            address: params[:address],
-            date_of_birth: params[:date_of_birth],
-            email: params[:email],
-            full_name: params[:full_name],
-            notes: params[:notes],
-            telephone_number: params[:telephone_number],
-            passport_id: params[:passport_id],
-            allergies_additional: params[:allergies_additional]
-          )
+          patient = Patient.create(params.except(:allergies))
           params[:allergies].split(/,/).each do |allergy_id|
             patient.allergies << Allergy.find(allergy_id)
           rescue ActiveRecord::RecordNotFound
@@ -60,17 +51,7 @@ module V1
             rescue ActiveRecord::RecordNotFound
               error!({ error_code: 400, error_message: 'Invalid data of allergies' }, 400)
             end
-            if patient.update(
-              address: params[:address],
-              date_of_birth: params[:date_of_birth],
-              email: params[:email],
-              full_name: params[:full_name],
-              notes: params[:notes],
-              telephone_number: params[:telephone_number],
-              passport_id: params[:passport_id],
-              allergies_additional: params[:allergies_additional],
-              allergies: checked_allergies
-            )
+            if patient.update(params.merge(allergies: checked_allergies))
               present patient, with: Entities::Patient
             else
               error!({ error_code: 400, error_message: patient.errors.full_messages.to_sentence }, 400)
