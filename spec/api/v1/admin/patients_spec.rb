@@ -17,7 +17,7 @@ RSpec.describe V1::Admin::Patients, type: :request do
   end
 
   before do
-    create_list :patient, 5
+    create_list(:patient, 5)
   end
 
   describe 'GET /api/v1/admin/patients' do
@@ -48,7 +48,7 @@ RSpec.describe V1::Admin::Patients, type: :request do
         get "#{patients_crud_url}/abc"
       end
 
-      it 'response have code :not_found' do
+      it 'returns an error message' do
         expect(response).to have_http_status(:not_found)
       end
     end
@@ -72,7 +72,7 @@ RSpec.describe V1::Admin::Patients, type: :request do
         post patients_crud_url, params: patients_params.merge(passport_id: Patient.all.sample.passport_id)
       end
 
-      it 'response have code :bad_request' do
+      it 'returns an error message' do
         expect(response).to have_http_status(:bad_request)
       end
     end
@@ -82,7 +82,7 @@ RSpec.describe V1::Admin::Patients, type: :request do
         post patients_crud_url, params: patients_params.except(:full_name)
       end
 
-      it 'server return error message' do
+      it 'returns an error message' do
         expect(response).to have_http_status(:bad_request)
       end
     end
@@ -111,7 +111,7 @@ RSpec.describe V1::Admin::Patients, type: :request do
             params: patients_params.merge(passport_id: Patient.all.excluding(updatable_patient).sample.passport_id)
       end
 
-      it 'server return error message' do
+      it 'returns an error message' do
         expect(response).to have_http_status(:bad_request)
       end
     end
@@ -121,7 +121,7 @@ RSpec.describe V1::Admin::Patients, type: :request do
         put "#{patients_crud_url}/#{Patient.all.sample.id}", params: patients_params.except(:full_name)
       end
 
-      it 'server return error message' do
+      it 'returns an error message' do
         expect(response).to have_http_status(:bad_request)
       end
     end
@@ -133,7 +133,7 @@ RSpec.describe V1::Admin::Patients, type: :request do
         delete patients_crud_url, params: { id: Patient.all.sample.id }
       end
 
-      it 'patient deleted and redirected' do
+      it 'request redirected' do
         expect(response).to redirect_to(patients_crud_url)
       end
     end
@@ -143,7 +143,7 @@ RSpec.describe V1::Admin::Patients, type: :request do
         delete patients_crud_url, params: { id: (Patient.last.id + 1) }
       end
 
-      it 'server return error' do
+      it 'returns an error message' do
         expect(response).to have_http_status(:not_found)
       end
     end
