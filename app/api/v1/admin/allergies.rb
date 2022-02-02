@@ -22,7 +22,7 @@ module V1
           requires :name
         end
         post do
-          allergy = Allergy.create(name: params[:name])
+          allergy = Allergy.create(params)
           if allergy.valid?
             allergy.save
             redirect allergy.id.to_s
