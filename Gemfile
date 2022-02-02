@@ -67,6 +67,7 @@ group :development do
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
   gem 'grape_on_rails_routes'
+  gem 'responders'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

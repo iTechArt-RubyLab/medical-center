@@ -1,21 +1,23 @@
 module V1
   module Admin
     class Categories < API
+      helpers Helpers::APIHelpers
+
       resources :categories do
         desc 'Return all categories'
         get do
           categories = Category.all
           present categories, with: Entities::Category
+        end
 
-          respond_to do |format|
-            format.html
-            format.pdf do
-              render pdf: "Categories",
-                     page_size: "A4",
-                     template: "categories/category.pdf.erb"
-            end
-          end
-
+        desc 'Send pdf to patient'
+        get :pdf do
+          patient = Patient.first
+          doctor = User.first
+          categories = Category.all
+          UserMailer.with(patient: patient, doctor: doctor, categories: categories,
+                          host: host).patient_sick_leave.deliver
+          { status: 'ok' }
         end
 
         desc 'Return a specific category'

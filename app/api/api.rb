@@ -1,6 +1,4 @@
 class API < Grape::API
-  include Grape::MimeResponds
-
   format :json
   prefix :api
   version 'v1', :path
