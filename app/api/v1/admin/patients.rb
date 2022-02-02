@@ -14,8 +14,6 @@ module V1
           get do
             patient = Patient.find(params[:id])
             present patient, with: Entities::Patient
-          rescue ActiveRecord::RecordNotFound
-            error!({ error_code: 404, error_message: 'Patient not found' })
           end
         end
 
@@ -38,13 +36,13 @@ module V1
           params[:allergies].split(/,/).each do |allergy_id|
             patient.allergies << Allergy.find(allergy_id)
           rescue ActiveRecord::RecordNotFound
-            error!({ error_code: 400, error_message: 'Invalid data of allergies' })
+            error!({ error_code: 400, error_message: 'Invalid data of allergies' }, 400)
           end
           if patient.valid?
             patient.save
             redirect "#{patients_crud_url}/#{patient.id}"
           else
-            error!({ error_code: 400, error_message: patient.errors.full_messages.to_sentence })
+            error!({ error_code: 400, error_message: patient.errors.full_messages.to_sentence }, 400)
           end
         end
 
@@ -55,16 +53,12 @@ module V1
                      :passport_id, :allergies_additional, :allergies
           end
           put do
-            begin
-              patient = Patient.find(params[:id])
-            rescue ActiveRecord::RecordNotFound
-              error!({ error_code: 404, error_message: 'Patient not found' })
-            end
+            patient = Patient.find(params[:id])
             checked_allergies = []
             params[:allergies]&.split(/,/)&.each do |allergy_id|
               checked_allergies << Allergy.find(allergy_id)
             rescue ActiveRecord::RecordNotFound
-              error!({ error_code: 400, error_message: 'Invalid data of allergies' })
+              error!({ error_code: 400, error_message: 'Invalid data of allergies' }, 400)
             end
             if patient.update(
               address: params[:address],
@@ -79,7 +73,7 @@ module V1
             )
               present patient, with: Entities::Patient
             else
-              error!({ error_code: 400, error_message: patient.errors.full_messages.to_sentence })
+              error!({ error_code: 400, error_message: patient.errors.full_messages.to_sentence }, 400)
             end
           end
         end
@@ -89,19 +83,9 @@ module V1
           requires :id
         end
         delete do
-          begin
-            patient = Patient.find(params[:id])
-          rescue ActiveRecord::RecordNotFound
-            error!({ error_code: 404, error_message: 'Patient not found' })
-          end
-          begin
-            patient.destroy!
-            redirect patients_crud_url
-            # rubocop:disable Style/RescueStandardError
-          rescue
-            # rubocop:enable Style/RescueStandardError
-            error!({ error_code: 500, error_message: 'Something went wrong while deleting a patient' })
-          end
+          patient = Patient.find(params[:id])
+          patient.destroy!
+          redirect patients_crud_url
         end
       end
     end

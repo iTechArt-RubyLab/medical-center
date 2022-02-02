@@ -1,6 +1,5 @@
 require 'rails_helper'
 require 'active_record'
-# rubocop:disable RSpec/MultipleExpectations
 RSpec.describe V1::Admin::Patients, type: :request do
   let(:patients_crud_url) { '/api/v1/admin/patients' }
   let(:patients_params) do
@@ -36,8 +35,7 @@ RSpec.describe V1::Admin::Patients, type: :request do
   describe 'GET /api/v1/admin/patients/_id_' do
     context 'when record exists' do
       before do
-        patient_url = "#{patients_crud_url}/#{Patient.all.sample.id}"
-        get patient_url
+        get "#{patients_crud_url}/#{Patient.all.sample.id}"
       end
 
       it 'return patient' do
@@ -50,9 +48,8 @@ RSpec.describe V1::Admin::Patients, type: :request do
         get "#{patients_crud_url}/abc"
       end
 
-      it 'server return error message' do
-        expect(response).to have_http_status(:internal_server_error)
-        expect(JSON.parse(response.body)['error_message']).to eq 'Patient not found'
+      it 'response have code :not_found' do
+        expect(response).to have_http_status(:not_found)
       end
     end
   end
@@ -72,22 +69,17 @@ RSpec.describe V1::Admin::Patients, type: :request do
 
     context 'when passport_id has already been used' do
       before do
-        used_passport_id_params = patients_params
-        used_passport_id_params[:passport_id] = Patient.all.sample.passport_id
-        post patients_crud_url, params: used_passport_id_params
+        post patients_crud_url, params: patients_params.merge(passport_id: Patient.all.sample.passport_id)
       end
 
-      it 'server return error message' do
-        expect(response).to have_http_status(:internal_server_error)
-        expect(JSON.parse(response.body)['error_message']).to eq 'Passport has already been taken'
+      it 'response have code :bad_request' do
+        expect(response).to have_http_status(:bad_request)
       end
     end
 
     context 'when one of parameters missing' do
       before do
-        missing_parameters_params = patients_params
-        missing_parameters_params.except!(:full_name)
-        post patients_crud_url, params: missing_parameters_params
+        post patients_crud_url, params: patients_params.except(:full_name)
       end
 
       it 'server return error message' do
@@ -99,36 +91,34 @@ RSpec.describe V1::Admin::Patients, type: :request do
   describe 'PUT /api/v1/admin/patients/_id_' do
     context 'when params are valid' do
       before do
-        patient = Patient.all.sample
-        put "#{patients_crud_url}/#{patient.id}", params: patients_params
+        put "#{patients_crud_url}/#{Patient.all.sample.id}", params: patients_params
       end
 
-      it 'update patient and show him' do
+      it 'response have code :ok' do
         expect(response).to have_http_status(:ok)
+      end
+
+      it 'patient are updated' do
         expect(JSON.parse(response.body)['passport_id']).to eq patients_params[:passport_id]
       end
     end
 
     context 'when passport_id has already been used' do
+      let(:updatable_patient) { Patient.all.sample }
+
       before do
-        patient = Patient.all.sample
-        used_passport_id_params = patients_params
-        used_passport_id_params[:passport_id] = Patient.all.excluding(patient).sample.passport_id
-        put "#{patients_crud_url}/#{patient.id}", params: used_passport_id_params
+        put "#{patients_crud_url}/#{updatable_patient.id}",
+            params: patients_params.merge(passport_id: Patient.all.excluding(updatable_patient).sample.passport_id)
       end
 
       it 'server return error message' do
-        expect(response).to have_http_status(:internal_server_error)
-        expect(JSON.parse(response.body)['error_message']).to eq 'Passport has already been taken'
+        expect(response).to have_http_status(:bad_request)
       end
     end
 
     context 'when one of parameters missing' do
       before do
-        patient = Patient.all.sample
-        missing_parameters_params = patients_params
-        missing_parameters_params.except!(:full_name)
-        put "#{patients_crud_url}/#{patient.id}", params: missing_parameters_params
+        put "#{patients_crud_url}/#{Patient.all.sample.id}", params: patients_params.except(:full_name)
       end
 
       it 'server return error message' do
@@ -154,9 +144,8 @@ RSpec.describe V1::Admin::Patients, type: :request do
       end
 
       it 'server return error' do
-        expect(JSON.parse(response.body)['error_code']).to eq 404
+        expect(response).to have_http_status(:not_found)
       end
     end
   end
 end
-# rubocop:enable RSpec/MultipleExpectations
