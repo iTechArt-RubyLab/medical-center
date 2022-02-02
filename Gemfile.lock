@@ -299,6 +299,10 @@ GEM
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    wicked_pdf (2.1.0)
+      activesupport
+    wkhtmltopdf-binary (0.12.6.5)
+    wkhtmltopdf-heroku (2.12.6.0)
     zeitwerk (2.5.3)
 
 PLATFORMS
@@ -339,6 +343,9 @@ DEPENDENCIES
   validates_timeliness (~> 6.0.0.beta2)
   web-console (>= 4.1.0)
   webpacker (~> 5.0)
+  wicked_pdf
+  wkhtmltopdf-binary
+  wkhtmltopdf-heroku
 
 RUBY VERSION
    ruby 3.0.3p157

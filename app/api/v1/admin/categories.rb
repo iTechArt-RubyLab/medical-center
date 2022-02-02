@@ -6,6 +6,16 @@ module V1
         get do
           categories = Category.all
           present categories, with: Entities::Category
+
+          respond_to do |format|
+            format.html
+            format.pdf do
+              render pdf: "Categories",
+                     page_size: "A4",
+                     template: "categories/category.pdf.erb"
+            end
+          end
+
         end
 
         desc 'Return a specific category'

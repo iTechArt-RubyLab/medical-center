@@ -1,4 +1,6 @@
 class API < Grape::API
+  include Grape::MimeResponds
+
   format :json
   prefix :api
   version 'v1', :path
@@ -26,5 +28,6 @@ class API < Grape::API
     mount V1::Admin::Users
     mount V1::Admin::Visits
     mount V1::Admin::Diagnoses
+    mount V1::Admin::Categories
   end
 end
