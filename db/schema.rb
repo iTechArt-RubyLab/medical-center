@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_01_163152) do
+ActiveRecord::Schema.define(version: 2022_02_03_132524) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -159,10 +159,11 @@ ActiveRecord::Schema.define(version: 2022_02_01_163152) do
     t.bigint "user_id", null: false
     t.bigint "patient_id", null: false
     t.bigint "sick_leave_id"
-    t.datetime "next_visit_at"
+    t.bigint "visit_id"
     t.index ["patient_id"], name: "index_visits_on_patient_id"
     t.index ["sick_leave_id"], name: "index_visits_on_sick_leave_id"
     t.index ["user_id"], name: "index_visits_on_user_id"
+    t.index ["visit_id"], name: "index_visits_on_visit_id"
   end
 
   create_table "visits_diagnoses", force: :cascade do |t|
@@ -187,4 +188,5 @@ ActiveRecord::Schema.define(version: 2022_02_01_163152) do
   add_foreign_key "visits", "patients"
   add_foreign_key "visits", "sick_leaves", column: "sick_leave_id"
   add_foreign_key "visits", "users"
+  add_foreign_key "visits", "visits"
 end

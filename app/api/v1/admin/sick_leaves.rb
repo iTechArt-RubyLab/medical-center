@@ -5,7 +5,7 @@ module V1
 
       helpers do
         def sick_leave
-          @sick_leave ||= SickLeave.find(params[:id])
+          @sick_leave = SickLeave.find(params[:id])
         end
       end
 
@@ -14,11 +14,8 @@ module V1
         route_param :id do
           delete do
             @sick_leave = sick_leave
-            if @sick_leave.destroy
-              @sick_leave
-            else
-              error!({ error_message: @sick_leave.errors.full_messages.join(', ') }, 422)
-            end
+            @sick_leave.destroy
+            @sick_leave
           end
         end
       end
