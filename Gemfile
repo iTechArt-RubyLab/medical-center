@@ -31,6 +31,8 @@ gem 'jbuilder', '~> 2.7'
 gem "factory_bot_rails", require: false
 gem 'faker', '~> 2.19'
 gem 'grape'
+gem 'sidekiq-cron', '~> 1.2'
+gem "sidekiq"
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
