@@ -22,10 +22,21 @@ Style/FrozenStringLiteralComment:
 
 
 Metrics/BlockLength:
-  Max: 20
+  Max: 40
   IgnoredMethods:
     - context
     - describe
     - it
     - resources
+
+    - resources
+    - get
+    - post
+    - delete
+    - put
+    - route_param
+    - params
+
+
+
 
