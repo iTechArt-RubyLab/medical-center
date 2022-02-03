@@ -22,13 +22,9 @@ module V1
           requires :name
         end
         post do
-          allergy = Allergy.create(params)
-          if allergy.valid?
-            allergy.save
-            redirect allergy.id.to_s
-          else
-            error!({ error_code: 400, error_message: allergy.errors.full_messages.to_sentence })
-          end
+          allergy = Allergy.create(declared(params))
+          allergy.save
+          redirect "#{allergies_crud_url}/#{allergy.id.to_s}"
         end
 
         desc 'Update an existing allergy'
@@ -38,11 +34,7 @@ module V1
           end
           put do
             allergy = Allergy.find(params[:id])
-            if allergy.update(name: params[:name])
-              present allergy, with: Entities::Allergy
-            else
-              error!({ error_code: 400, error_message: allergy.errors.full_messages.to_sentence })
-            end
+            present allergy, with: Entities::Allergy if allergy.update(declared(params))
           end
         end
 
