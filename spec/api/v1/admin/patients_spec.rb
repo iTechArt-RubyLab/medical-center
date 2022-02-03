@@ -12,7 +12,7 @@ RSpec.describe V1::Admin::Patients, type: :request do
       telephone_number: Faker::Number.number(digits: 7),
       passport_id: Faker::Alphanumeric.alpha(number: rand(6..50)),
       allergies_additional: 'Something information about allergies',
-      allergies: ''
+      allergies: nil
     }
   end
 
@@ -60,7 +60,7 @@ RSpec.describe V1::Admin::Patients, type: :request do
         post patients_crud_url, params: patients_params
       end
 
-      it 'create new patient and redirect to him' do
+      it 'redirect to new patient' do
         expect(response).to redirect_to(
           "#{patients_crud_url}/#{Patient.find_by(passport_id: patients_params[:passport_id]).id}"
         )

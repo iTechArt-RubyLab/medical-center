@@ -24,17 +24,11 @@ module V1
         end
         post do
           patient = Patient.create(params.except(:allergies))
-          params[:allergies].split(/,/).each do |allergy_id|
-            patient.allergies << Allergy.find(allergy_id)
-          rescue ActiveRecord::RecordNotFound
-            error!({ error_code: 400, error_message: 'Invalid data of allergies' }, 400)
+          unless params[:allergies].blank?
+            patient.allergies = Allergy.find(params[:allergies])
           end
-          if patient.valid?
-            patient.save
-            redirect "#{patients_crud_url}/#{patient.id}"
-          else
-            error!({ error_code: 400, error_message: patient.errors.full_messages.to_sentence }, 400)
-          end
+          patient.save
+          redirect "#{patients_crud_url}/#{patient.id}"
         end
 
         desc 'Update an existing patient'
@@ -45,17 +39,13 @@ module V1
           end
           put do
             patient = Patient.find(params[:id])
-            checked_allergies = []
-            params[:allergies]&.split(/,/)&.each do |allergy_id|
-              checked_allergies << Allergy.find(allergy_id)
-            rescue ActiveRecord::RecordNotFound
-              error!({ error_code: 400, error_message: 'Invalid data of allergies' }, 400)
-            end
-            if patient.update(params.merge(allergies: checked_allergies))
-              present patient, with: Entities::Patient
+            unless params[:allergies].blank?
+              checked_allergies = Allergy.find(params[:allergies])
             else
-              error!({ error_code: 400, error_message: patient.errors.full_messages.to_sentence }, 400)
+              checked_allergies = []
             end
+            patient.update(params.merge(allergies: checked_allergies))
+            present patient, with: Entities::Patient
           end
         end
 
