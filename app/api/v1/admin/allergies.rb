@@ -24,7 +24,7 @@ module V1
         post do
           allergy = Allergy.create(declared(params))
           allergy.save
-          redirect "#{allergies_crud_url}/#{allergy.id.to_s}"
+          redirect "#{allergies_crud_url}/#{allergy.id}"
         end
 
         desc 'Update an existing allergy'
