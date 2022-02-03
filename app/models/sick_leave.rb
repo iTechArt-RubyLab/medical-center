@@ -11,4 +11,6 @@
 #
 class SickLeave < ApplicationRecord
   has_many :visits, dependent: :nullify
+
+  validates :started_at, :destination, :ended_at, presence: true
 end

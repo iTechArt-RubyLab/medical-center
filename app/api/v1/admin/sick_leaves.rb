@@ -5,7 +5,7 @@ module V1
 
       helpers do
         def sick_leave
-          @sick_leave = SickLeave.find(params[:id])
+          SickLeave.find(params[:id])
         end
       end
 
@@ -13,9 +13,7 @@ module V1
         desc 'Delete a specific sick_leave'
         route_param :id do
           delete do
-            @sick_leave = sick_leave
-            @sick_leave.destroy
-            @sick_leave
+            sick_leave.tap(&:destroy)
           end
         end
       end
