@@ -7,13 +7,14 @@ module V1
     end
 
     resources :sick_leaves do
+      params do
+        requires :destination, type: String
+        requires :started_at, type: String
+        requires :ended_at, type: String
+      end
       post do
-        params do
-          requires :destination, type: String
-          requires :started_at, type: String
-          requires :ended_at, type: String
-        end
-        SickLeave.create!(params)
+
+        SickLeave.create!(declared(params, include_missing: true))
       end
 
       desc 'Update a specific sick_leave'
@@ -24,8 +25,9 @@ module V1
           optional :ended_at, type: String
         end
         put do
+
           @sick_leave = sick_leave
-          if @sick_leave.update(params)
+          if @sick_leave.update(declared(params, include_missing: false))
             @sick_leave
           else
             error!({ error_message: @sick_leave.errors.full_messages.join(', ') }, 422)
