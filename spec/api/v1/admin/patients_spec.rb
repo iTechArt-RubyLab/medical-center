@@ -12,7 +12,7 @@ RSpec.describe V1::Admin::Patients, type: :request do
       telephone_number: Faker::Number.number(digits: 7),
       passport_id: Faker::Alphanumeric.alpha(number: rand(6..50)),
       allergies_additional: 'Something information about allergies',
-      allergies: nil
+      allergies_ids: nil
     }
   end
 

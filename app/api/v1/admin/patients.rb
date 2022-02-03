@@ -19,12 +19,12 @@ module V1
 
         desc 'Create a new patient'
         params do
-          requires :address, :date_of_birth, :email, :full_name, :notes, :telephone_number,
-                   :passport_id, :allergies_additional, :allergies
+          requires :address, :date_of_birth, :full_name, :telephone_number, :passport_id
+          optional :email, :notes, :allergies_additional, :allergies_ids
         end
         post do
-          patient = Patient.create(params.except(:allergies))
-          patient.allergies = Allergy.find(params[:allergies]) if params[:allergies].present?
+          patient = Patient.create(declared(params, include_missing: true).except(:allergies_ids))
+          patient.allergies = Allergy.find(params[:allergies_ids]) if params[:allergies_ids].present?
           patient.save
           redirect "#{patients_crud_url}/#{patient.id}"
         end
@@ -32,14 +32,16 @@ module V1
         desc 'Update an existing patient'
         route_param :id do
           params do
-            requires :address, :date_of_birth, :email, :full_name, :notes, :telephone_number,
-                     :passport_id, :allergies_additional, :allergies
+            requires :address, :date_of_birth, :full_name, :telephone_number, :passport_id
+            optional :email, :notes, :allergies_additional, :allergies_ids
           end
           put do
             patient = Patient.find(params[:id])
             checked_allergies = []
-            checked_allergies = Allergy.find(params[:allergies]) if params[:allergies].present?
-            patient.update(params.merge(allergies: checked_allergies))
+            checked_allergies = Allergy.find(params[:allergies_ids]) if params[:allergies_ids].present?
+            patient.update(
+              declared(params, include_missing: true).except(:allergies_ids).merge(allergies: checked_allergies)
+            )
             present patient, with: Entities::Patient
           end
         end
