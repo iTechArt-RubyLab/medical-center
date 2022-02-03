@@ -13,7 +13,6 @@ module V1
         requires :ended_at, type: String
       end
       post do
-
         SickLeave.create!(declared(params, include_missing: true))
       end
 
@@ -25,7 +24,6 @@ module V1
           optional :ended_at, type: String
         end
         put do
-
           @sick_leave = sick_leave
           if @sick_leave.update(declared(params, include_missing: false))
             @sick_leave
