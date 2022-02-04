@@ -183,10 +183,10 @@ ActiveRecord::Schema.define(version: 2022_02_03_132524) do
   add_foreign_key "patient_sick_leaves", "sick_leaves", column: "sick_leave_id"
   add_foreign_key "user_categories", "categories"
   add_foreign_key "user_categories", "users"
-  add_foreign_key "user_sick_leaves", "sick_leaves", column: "sick_leave_id"
+  add_foreign_key "user_sick_leaves", "sick_leaves"
   add_foreign_key "user_sick_leaves", "users"
   add_foreign_key "visits", "patients"
-  add_foreign_key "visits", "sick_leaves", column: "sick_leave_id"
+  add_foreign_key "visits", "sick_leaves"
   add_foreign_key "visits", "users"
   add_foreign_key "visits", "visits"
 end
