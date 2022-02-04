@@ -23,7 +23,7 @@ module V1
         end
         post do
           allergy = Allergy.create(declared(params))
-          allergy.save
+          allergy.save!
           redirect "#{allergies_crud_url}/#{allergy.id}"
         end
 
@@ -34,7 +34,7 @@ module V1
           end
           put do
             allergy = Allergy.find(params[:id])
-            present allergy, with: Entities::Allergy if allergy.update(declared(params))
+            present allergy, with: Entities::Allergy if allergy.update!(declared(params))
           end
         end
 
