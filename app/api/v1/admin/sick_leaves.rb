@@ -13,7 +13,7 @@ module V1
         desc 'Delete a specific sick_leave'
         route_param :id do
           delete do
-            sick_leave.tap(&:destroy)
+            sick_leave.tap(&:destroy!)
           end
         end
       end
