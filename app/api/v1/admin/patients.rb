@@ -25,7 +25,7 @@ module V1
         post do
           patient = Patient.create(declared(params, include_missing: true).except(:allergies_ids))
           patient.allergies = Allergy.find(params[:allergies_ids]) if params[:allergies_ids].present?
-          patient.save
+          patient.save!
           redirect "#{patients_crud_url}/#{patient.id}"
         end
 
@@ -39,7 +39,7 @@ module V1
             patient = Patient.find(params[:id])
             checked_allergies = []
             checked_allergies = Allergy.find(params[:allergies_ids]) if params[:allergies_ids].present?
-            patient.update(
+            patient.update!(
               declared(params, include_missing: true).except(:allergies_ids).merge(allergies: checked_allergies)
             )
             present patient, with: Entities::Patient

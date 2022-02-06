@@ -29,5 +29,6 @@ class API < Grape::API
     mount V1::Admin::Diagnoses
     mount V1::Admin::SickLeaves
     mount V1::Admin::Patients
+    mount V1::Admin::Allergies
   end
 end
