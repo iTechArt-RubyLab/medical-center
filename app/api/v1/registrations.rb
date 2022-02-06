@@ -22,8 +22,6 @@ module V1
         email = params[:email]
         password = params[:password]
 
-        error!({ error_code: 404, error_message: 'Invalid Email or Password.' }, 401) if email.nil? || password.nil?
-
         user = User.create(params)
         user.ensure_authentication_token
 

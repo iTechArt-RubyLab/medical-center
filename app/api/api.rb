@@ -1,7 +1,20 @@
+require 'error_handler'
+
 class API < Grape::API
   format :json
   prefix :api
   version 'v1', :path
+
+  use ErrorHandler
+
+  NON_AUTHENTICATION_PATHS = [
+    '/api/v1/sessions',
+    '/api/v1/registrations'
+  ]
+
+  before do
+    authenticate! unless NON_AUTHENTICATION_PATHS.include? request.env['REQUEST_PATH']
+  end
 
   helpers do
     def current_user

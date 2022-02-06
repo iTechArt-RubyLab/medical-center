@@ -1,5 +1,5 @@
 module V1
-  class Sessions < API
+  class Sessions < Grape::API
     version 'v1', using: :path
     format :json
     prefix :api
