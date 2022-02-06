@@ -3,8 +3,8 @@ class ErrorHandler < Grape::Middleware::Base
     @env = env
     begin
       @app.call(@env)
-    rescue Exception => e
-      throw :error, :message => e.message || options[:default_message], :status => 500
+    rescue StandardError => e
+      throw :error, message: e.message || options[:default_message], status: 500
     end
   end
 end

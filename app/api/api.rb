@@ -10,7 +10,7 @@ class API < Grape::API
   NON_AUTHENTICATION_PATHS = [
     '/api/v1/sessions',
     '/api/v1/registrations'
-  ]
+  ].freeze
 
   before do
     authenticate! unless NON_AUTHENTICATION_PATHS.include? request.env['REQUEST_PATH']

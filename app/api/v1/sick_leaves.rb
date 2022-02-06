@@ -23,10 +23,10 @@ module V1
           optional :started_at, type: String
           optional :ended_at, type: String
         end
-        put do  
-            sick_leave.tap do |sick_leave|
-              sick_leave.update!(declared(params, include_missing: false))
-            end
+        put do
+          sick_leave.tap do |sick_leave|
+            sick_leave.update!(declared(params, include_missing: false))
+          end
         end
       end
 

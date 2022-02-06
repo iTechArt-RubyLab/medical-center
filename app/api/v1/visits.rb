@@ -22,8 +22,8 @@ module V1
         put do
           visit = find_visit_by_id(params[:id])
 
-          visit.tap do |visit|
-            visit.update!(params)
+          visit.tap do |visits|
+            visits.update!(params)
           end
         end
       end

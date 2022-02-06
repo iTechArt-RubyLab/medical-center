@@ -19,9 +19,6 @@ module V1
       end
 
       post do
-        email = params[:email]
-        password = params[:password]
-
         user = User.create(params)
         user.ensure_authentication_token
 
