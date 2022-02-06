@@ -214,7 +214,7 @@ GEM
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    redis (4.6.0)
+    redis (4.5.1)
     regexp_parser (2.2.0)
     responders (3.0.1)
       actionpack (>= 5.0)
@@ -267,7 +267,7 @@ GEM
       sprockets-rails
       tilt
     semantic_range (3.0.0)
-    sidekiq (6.4.0)
+    sidekiq (6.3.1)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
@@ -341,13 +341,14 @@ DEPENDENCIES
   pundit (~> 2.1.1)
   rack-mini-profiler (~> 2.0)
   rails (~> 6.1.4, >= 6.1.4.4)
+  redis (~> 4.5.1)
   rspec-rails (~> 5.0.0)
   rubocop
   rubocop-rails
   rubocop-rspec
   sass-rails (>= 6)
-  sidekiq
-  sidekiq-cron (~> 1.2)
+  sidekiq (~> 6.3.1)
+  sidekiq-cron (~> 1.1)
   simple_command (~> 0.1.0)
   simple_token_authentication (~> 1.17)
   spring

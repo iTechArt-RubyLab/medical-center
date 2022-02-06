@@ -8,7 +8,7 @@ class UserMailer < ApplicationMailer
   def appointment_notification
     @receiver = params[:receiver]
     @visit_date = params[:visit_date]
-    @visit_cabinet = params[:visit_cabinet]
+    @visit_room = params[:visit_room]
 
     mail(to: @receiver.email, from: ENV['email_user_name'], subject: 'Appointment Notification')
   end
