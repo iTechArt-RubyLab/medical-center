@@ -10,12 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 2022_01_30_161112) do
-=======
-
-ActiveRecord::Schema.define(version: 2022_02_03_132524) do
->>>>>>> main
+ActiveRecord::Schema.define(version: 2022_02_07_055239) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -189,7 +184,7 @@ ActiveRecord::Schema.define(version: 2022_02_03_132524) do
   add_foreign_key "patient_allergies", "allergies"
   add_foreign_key "patient_allergies", "patients"
   add_foreign_key "patient_sick_leaves", "patients"
-  add_foreign_key "patient_sick_leaves", "sick_leaves", column: "sick_leave_id"
+  add_foreign_key "patient_sick_leaves", "sick_leaves"
   add_foreign_key "user_categories", "categories"
   add_foreign_key "user_categories", "users"
   add_foreign_key "user_sick_leaves", "sick_leaves"

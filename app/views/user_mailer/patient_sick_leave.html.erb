@@ -10,29 +10,12 @@
         <img src="assets/theme/img/download.jpeg" width="100" height="100" alt="">
       </div>
     </header>
-    <h1>Hi, <%= @doctor.full_name %>!!!</h1>
+    <h1>Hi, <%= @patient.full_name %>!!!</h1>
 
-    <table style="width:100%">
-      <thead>
-        <tr>
-          <th>id
-          <th>title</th>
-          <th>description</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @categories.each do |category| %>
-          <%= content_tag :tr, id: dom_id(category), class: dom_class(category) do %>
-            <td><%= category.id %></td>
-            <td><%= category.title %></td>
-            <td><%= category.description %></td>
-          <% end %>
-        <% end %>
-      </tbody>
-    </table> 
+    <p> Your sick leave starts on <%=  @sick_leave.started_at %> and ends on <%= @sick_leave.ended_at %></p>
 
     <p>Thanks, have a great day!</p>
     <p>Your <%= @doctor.full_name %></p>
-    <p>Date of extract: <%= Date.today %></p>
+    <p>Date: <%= Date.today %></p>
   </body>
 </html>

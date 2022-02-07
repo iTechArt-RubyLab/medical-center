@@ -11,7 +11,7 @@ class UserMailer < ApplicationMailer
     @host = params[:host]
     @patient = params[:patient]
     @doctor = params[:doctor]
-    @categories = params[:categories]
+    @sick_leave = params[:sick_leave]
 
     view = render_to_string_with_wicked_pdf(
       pdf: 'view.pdf',
