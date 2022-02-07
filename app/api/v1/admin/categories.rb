@@ -1,11 +1,16 @@
 module V1
   module Admin
     class Categories < API
+      helpers Helpers::CrudHelpers
+
       resources :categories do
         desc 'Return all categories'
+        params do
+          optional :sort, type: Hash
+        end
         get do
-          categories = Category.all
-          present categories, with: Entities::Category
+          default_sort = { column_name: 'title', type: 'asc' }
+          present sorting(Category, declared(params)[:sort], default_sort), with: Entities::Category
         end
 
         desc 'Return a specific category'

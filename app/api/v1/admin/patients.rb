@@ -1,12 +1,17 @@
 module V1
   module Admin
     class Patients < API
+      helpers Helpers::CrudHelpers
+
       patients_crud_url = '/api/v1/admin/patients'
       resources :patients do
         desc 'Return all patients'
+        params do
+          optional :sort, type: Hash
+        end
         get do
-          patients = Patient.all
-          present patients, with: Entities::Patient
+          default_sort = { column_name: 'full_name', type: 'asc' }
+          present sorting(Patient, declared(params)[:sort], default_sort), with: Entities::Patient
         end
 
         desc 'Return a specific patient'

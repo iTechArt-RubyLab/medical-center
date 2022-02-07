@@ -23,6 +23,7 @@ class API < Grape::API
   mount V1::Confirmations
   mount V1::SickLeaves
   mount V1::Visits
+  mount V1::Diagnoses
   namespace :admin do
     mount V1::Admin::Users
     mount V1::Admin::Visits
@@ -30,5 +31,6 @@ class API < Grape::API
     mount V1::Admin::SickLeaves
     mount V1::Admin::Patients
     mount V1::Admin::Allergies
+    mount V1::Admin::Categories
   end
 end

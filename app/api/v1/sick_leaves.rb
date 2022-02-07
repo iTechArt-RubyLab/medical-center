@@ -1,5 +1,6 @@
 module V1
   class SickLeaves < API
+    helpers Helpers::CrudHelpers
     helpers do
       def sick_leave
         SickLeave.find(params[:id])
@@ -34,8 +35,12 @@ module V1
       end
 
       desc 'Return all sick_leaves'
+      params do
+        optional :sort, type: Hash
+      end
       get do
-        SickLeave.all
+        default_sort = { column_name: 'id', type: 'asc' }
+        present sorting(SickLeave, declared(params)[:sort], default_sort)
       end
 
       desc 'Return specific sick_leave'
