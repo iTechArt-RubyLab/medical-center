@@ -34,3 +34,6 @@ Metrics/BlockLength:
     - put
     - route_param
     - params
+
+Metrics/MethodLength:
+  Max: 20
