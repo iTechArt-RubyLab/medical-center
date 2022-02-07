@@ -16,6 +16,14 @@ class API < Grape::API
     def authenticate!
       error!('401 Unauthorized', 401) unless current_user
     end
+
+    def user_are_admin?
+      error!('401 Unauthorized: permission denied', 401) unless current_user.role == 'admin'
+    end
+  end
+
+  before do
+    authenticate!
   end
 
   mount V1::Sessions
@@ -24,7 +32,12 @@ class API < Grape::API
   mount V1::SickLeaves
   mount V1::Visits
   mount V1::Diagnoses
+
   namespace :admin do
+    before do
+      user_are_admin?
+    end
+
     mount V1::Admin::Users
     mount V1::Admin::Visits
     mount V1::Admin::Diagnoses
