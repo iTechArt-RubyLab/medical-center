@@ -25,9 +25,6 @@ class Patient < ApplicationRecord
   has_many :visits, dependent: :nullify
   has_many :sick_leaves, dependent: :nullify
 
-  has_many :patient_sick_leave, dependent: :destroy
-  has_many :sick_leaves, through: :patient_sick_leave
-
   has_one_attached :avatar
 
   validates :full_name, presence: true, length: { in: 3..50 }
@@ -36,4 +33,12 @@ class Patient < ApplicationRecord
   validates_date :date_of_birth, presence: true, between: ['01.01.1900', :today]
   validates :passport_id, presence: true, length: { in: 6..50 }, uniqueness: true
   validates :address, presence: true
+
+  searchkick word_middle: %i[full_name]
+
+  def search_data
+    {
+      full_name: full_name
+    }
+  end
 end
