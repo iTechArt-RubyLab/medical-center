@@ -13,6 +13,7 @@ class UserMailer < ApplicationMailer
     @visit_room = params[:visit_room]
 
     mail(to: @receiver.email, from: ENV['email_user_name'], subject: 'Appointment Notification')
+  end
 
   def patient_sick_leave
     @host = params[:host]

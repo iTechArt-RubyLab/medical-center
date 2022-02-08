@@ -3,7 +3,7 @@ module V1
     class Visits < API
       helpers do
         def visit
-          @visit = Visit.find(params[:id])
+          Visit.find(params[:id])
         end
       end
 
@@ -29,25 +29,14 @@ module V1
         desc 'Update a specific visit'
         route_param :id do
           put do
-            @visit = visit
-
-            if @visit.update(params)
-              present @visit
-            else
-              error!({ error_message: @visit.errors.full_messages.join(', ') }, 422)
-            end
+            visit.tap { |visit| visit.update!(params) }
           end
         end
 
         desc 'Delete a specific visit'
         route_param :id do
           delete do
-            @visit = visit
-            if @visit.destroy
-              present @visit
-            else
-              error!({ error_message: @visit.errors.full_messages.join(', ') }, 422)
-            end
+            visit.destroy!
           end
         end
       end
