@@ -3,8 +3,9 @@ require 'rails_helper'
 describe V1::Admin::Diagnoses do
   include AuthHelper
 
-  let!(:current_user) { create(:user) }
+  let!(:current_user) { create(:user, role: 'admin') }
   let!(:diagnoses) { create_list(:diagnosis, 2) }
+  let(:headers) { { 'Authorization' => current_user.authentication_token.to_s } }
 
   describe 'POST#create' do
     let(:params) do
@@ -16,7 +17,7 @@ describe V1::Admin::Diagnoses do
     end
 
     it 'returns created diagnosis' do
-      post '/api/v1/admin/diagnoses', params: params, headers: headers(current_user)
+      post '/api/v1/admin/diagnoses', params: params, headers: headers
 
       expect(Diagnosis.pluck(:id)).to include(JSON.parse(response.body)['id'])
     end
@@ -31,7 +32,7 @@ describe V1::Admin::Diagnoses do
     end
 
     it 'returns updated diagnosis' do
-      put "/api/v1/admin/diagnoses/#{diagnosis.id}", params: params, headers: headers(current_user)
+      put "/api/v1/admin/diagnoses/#{diagnosis.id}", params: params, headers: headers
 
       expect(JSON.parse(response.body)['name']).to eq 'covid'
     end
@@ -39,7 +40,7 @@ describe V1::Admin::Diagnoses do
 
   describe 'DELETE#destroy' do
     it 'returns deleted diagnosis' do
-      delete "/api/v1/admin/diagnoses/#{diagnoses.first.id}", params: nil, headers: headers(current_user)
+      delete "/api/v1/admin/diagnoses/#{diagnoses.first.id}", params: nil, headers: headers
 
       expect(diagnoses.pluck(:id)).to include(JSON.parse(response.body)['id'])
     end

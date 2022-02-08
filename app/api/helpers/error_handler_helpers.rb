@@ -15,5 +15,9 @@ module Helpers
     def argument_error(error)
       error!(error.message, 400)
     end
+
+    def record_invalid(error)
+      error!(error.message, 400)
+    end
   end
 end

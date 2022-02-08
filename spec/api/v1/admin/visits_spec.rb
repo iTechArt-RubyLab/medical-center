@@ -3,7 +3,8 @@ require 'rails_helper'
 describe V1::Admin::Visits, type: :request do
   include AuthHelper
 
-  let!(:current_user) { create(:user) }
+  let!(:current_user) { create(:user, role: 'admin') }
+  let(:headers) { { 'Authorization' => current_user.authentication_token.to_s } }
   let!(:visits) { create_list(:visit, 2) }
 
   describe 'POST#create' do
@@ -20,7 +21,7 @@ describe V1::Admin::Visits, type: :request do
     end
 
     it 'returns created visit' do
-      post '/api/v1/admin/visits', params: params, headers: headers(current_user)
+      post '/api/v1/admin/visits', params: params, headers: headers
 
       expect(Visit.pluck(:id)).to include(JSON.parse(response.body)['id'])
     end
@@ -36,7 +37,7 @@ describe V1::Admin::Visits, type: :request do
     end
 
     it 'returns updated diagnosis' do
-      put "/api/v1/admin/visits/#{visit.id}", params: params, headers: headers(current_user)
+      put "/api/v1/admin/visits/#{visit.id}", params: params, headers: headers
 
       expect(note).to include(JSON.parse(response.body)['notes'])
     end
@@ -44,7 +45,7 @@ describe V1::Admin::Visits, type: :request do
 
   describe 'DELETE#destroy' do
     it 'returns deleted visit' do
-      delete "/api/v1/admin/visits/#{visits.first.id}", params: nil, headers: headers(current_user)
+      delete "/api/v1/admin/visits/#{visits.first.id}", params: nil, headers: headers
 
       expect(JSON.parse(response.body)['id']).to eq visits.first.id
     end

@@ -14,7 +14,7 @@
 #
 FactoryBot.define do
   factory :category do
-    title { Faker::Lorem.unique.word }
+    title { Faker::Lorem.unique.sentence(word_count: 3) }
     description { Faker::Lorem.sentence(word_count: 5) }
 
     trait :dentist do

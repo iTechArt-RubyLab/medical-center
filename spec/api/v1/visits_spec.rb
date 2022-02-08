@@ -4,11 +4,12 @@ describe V1::Visits do
   include AuthHelper
 
   let!(:current_user) { create(:user) }
+  let(:headers) { { 'Authorization' => current_user.authentication_token.to_s } }
   let!(:visit) { create(:visit, user: current_user) }
 
   describe 'GET all visits' do
     it 'returns current_users visits' do
-      get '/api/v1/visits', params: nil, headers: headers(current_user)
+      get '/api/v1/visits', params: nil, headers: headers
 
       expect(JSON.parse(response.body).count).to eq current_user.visits.count
     end
@@ -26,17 +27,16 @@ describe V1::Visits do
     end
 
     it 'returns new current_users visit' do
-      post '/api/v1/visits', params: params, headers: headers(current_user)
+      post '/api/v1/visits', params: params, headers: headers
 
       expected_id = Visit.last.id
-
       expect(JSON.parse(response.body)['id']).to eq expected_id
     end
   end
 
   describe 'GET specific visit' do
     it 'returns current_users visits by id' do
-      get "/api/v1/visits/#{visit.id}", params: nil, headers: headers(current_user)
+      get "/api/v1/visits/#{visit.id}", params: nil, headers: headers
 
       expect(JSON.parse(response.body)['id']).to eq visit.id
     end

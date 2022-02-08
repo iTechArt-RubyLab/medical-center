@@ -20,6 +20,8 @@ Style/Documentation:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
 
 Metrics/BlockLength:
   Max: 40

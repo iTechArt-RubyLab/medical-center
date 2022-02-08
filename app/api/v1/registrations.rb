@@ -3,6 +3,13 @@ module V1
     version 'v1', using: :path
     format :json
     prefix :api
+
+    helpers do
+      def call_authentication?
+        false
+      end
+    end
+
     resource :registrations do
       desc 'Authenticate user and return user object / access token'
 
@@ -21,12 +28,6 @@ module V1
         user.ensure_authentication_token
         UserMailer.with(user: user, host: host).registration_confirmation.deliver
         { status: 'ok', auth_token: user.authentication_token } if user
-      end
-    end
-
-    helpers do
-      def call_authentication?
-        false
       end
     end
   end

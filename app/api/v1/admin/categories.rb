@@ -23,14 +23,7 @@ module V1
           requires :title, :description
         end
         post do
-          category = Category.create(
-            title: params[:title],
-            description: params[:description]
-          )
-          if category.valid?
-            category.save
-            redirect "/api/v1/admin/categories/#{category.id}"
-          end
+          Category.create!(params)
         end
 
         desc 'Update an existing category'
@@ -53,7 +46,6 @@ module V1
         delete do
           category = Category.find(params[:id])
           category.destroy!
-          redirect '/api/v1/admin/categories'
         end
       end
     end

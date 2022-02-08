@@ -386,9 +386,9 @@ GEM
     websocket-extensions (0.1.5)
     wicked_pdf (2.1.0)
       activesupport
+    will_paginate (3.3.1)
     wkhtmltopdf-binary (0.12.6.5)
     wkhtmltopdf-heroku (2.12.6.0)
-    will_paginate (3.3.1)
     zeitwerk (2.5.3)
 
 PLATFORMS
@@ -441,9 +441,9 @@ DEPENDENCIES
   web-console (>= 4.1.0)
   webpacker (~> 5.0)
   wicked_pdf
+  will_paginate (~> 3.3, >= 3.3.1)
   wkhtmltopdf-binary
   wkhtmltopdf-heroku
-  will_paginate (~> 3.3, >= 3.3.1)
 
 RUBY VERSION
    ruby 3.0.3p157
