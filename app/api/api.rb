@@ -36,9 +36,9 @@ class API < Grape::API
     end
   end
 
-  before do
-    authenticate!
-  end
+  # before do
+  #   authenticate!
+  # end
 
   mount V1::Sessions
   mount V1::Registrations
@@ -51,9 +51,9 @@ class API < Grape::API
   mount V1::Visits
 
   namespace :admin do
-    before do
-      authorize_admin!
-    end
+    # before do
+    #   authorize_admin!
+    # end
 
     mount V1::Admin::Users
     mount V1::Admin::Allergies

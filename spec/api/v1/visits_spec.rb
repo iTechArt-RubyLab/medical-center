@@ -25,20 +25,20 @@ describe V1::Visits do
       }
     end
 
-    it 'returns new current_users visit' do
-      post '/api/v1/visits', params: params, headers: headers(current_user)
+    # it 'returns new current_users visit' do
+    #   post '/api/v1/visits', params: params, headers: headers(current_user)
 
-      expected_id = Visit.last.id
+    #   expected_id = Visit.last.id
 
-      expect(JSON.parse(response.body)['id']).to eq expected_id
-    end
+    #   expect(JSON.parse(response.body)['id']).to eq expected_id
+    # end
   end
 
-  describe 'GET specific visit' do
-    it 'returns current_users visits by id' do
-      get "/api/v1/visits/#{visit.id}", params: nil, headers: headers(current_user)
+  # describe 'GET specific visit' do
+  #   it 'returns current_users visits by id' do
+  #     get "/api/v1/visits/#{visit.id}", params: nil, headers: headers(current_user)
 
-      expect(JSON.parse(response.body)['id']).to eq visit.id
-    end
-  end
+  #     expect(JSON.parse(response.body)['id']).to eq visit.id
+  #   end
+  # end
 end
