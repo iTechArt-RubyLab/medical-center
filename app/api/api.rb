@@ -17,8 +17,12 @@ class API < Grape::API
       error!('401 Unauthorized', 401) unless current_user
     end
 
+    def authorize_admin!
+      error!('401 Unauthorized: permission denied', 401) unless user_are_admin?
+    end
+
     def user_are_admin?
-      error!('401 Unauthorized: permission denied', 401) unless current_user.role == 'admin'
+      current_user.role == 'admin'
     end
   end
 
@@ -29,21 +33,24 @@ class API < Grape::API
   mount V1::Sessions
   mount V1::Registrations
   mount V1::Confirmations
+  mount V1::Allergies
+  mount V1::Categories
+  mount V1::Diagnoses
+  mount V1::Patients
   mount V1::SickLeaves
   mount V1::Visits
-  mount V1::Diagnoses
 
   namespace :admin do
     before do
-      user_are_admin?
+      authorize_admin!
     end
 
     mount V1::Admin::Users
-    mount V1::Admin::Visits
-    mount V1::Admin::Diagnoses
-    mount V1::Admin::SickLeaves
-    mount V1::Admin::Patients
     mount V1::Admin::Allergies
     mount V1::Admin::Categories
+    mount V1::Admin::Diagnoses
+    mount V1::Admin::Patients
+    mount V1::Admin::SickLeaves
+    mount V1::Admin::Visits
   end
 end

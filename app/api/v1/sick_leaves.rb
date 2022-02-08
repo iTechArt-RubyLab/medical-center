@@ -8,6 +8,7 @@ module V1
     end
 
     resources :sick_leaves do
+      desc 'create a new sick_leave'
       params do
         requires :destination, type: String
         requires :started_at, type: String

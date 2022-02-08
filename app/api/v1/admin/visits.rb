@@ -23,6 +23,7 @@ module V1
           get { visit }
         end
 
+        desc 'create a new visit'
         post do
           Visit.create!(params)
         end
