@@ -1,8 +1,23 @@
 module V1
   module Admin
     class Diagnoses < API
-      desc 'create a new diagnosis'
       resources :diagnoses do
+        desc 'Return all diagnoses'
+        params do
+          optional :sort, type: Hash
+        end
+        get do
+          present sorting(Diagnosis, declared(params)[:sort]).paginate(page: params[:page])
+        end
+
+        desc 'Return specific diagnosis'
+        route_param :id, type: Integer do
+          get do
+            present Diagnosis.find(params[:id])
+          end
+        end
+
+        desc 'create a new diagnosis'
         post do
           Diagnosis.create!(params)
         end

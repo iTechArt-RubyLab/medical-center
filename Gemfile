@@ -33,6 +33,7 @@ gem 'faker', '~> 2.19'
 gem 'grape'
 gem 'sidekiq-cron', '~> 1.1'
 gem 'sidekiq', '~> 6.3.1'
+gem 'will_paginate', '~> 3.3', '>= 3.3.1'
 
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.5.1'
