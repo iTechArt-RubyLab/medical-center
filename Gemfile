@@ -33,6 +33,8 @@ gem 'faker', '~> 2.19'
 gem 'grape'
 gem 'sidekiq-cron', '~> 1.1'
 gem 'sidekiq', '~> 6.3.1'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-heroku'
 gem 'will_paginate', '~> 3.3', '>= 3.3.1'
 
 # Use Redis adapter to run Action Cable in production
@@ -50,6 +52,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails', '~> 5.0.0'
+  gem 'wkhtmltopdf-binary'
 end
 
 group :development do
@@ -67,6 +70,7 @@ group :development do
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
   gem 'grape_on_rails_routes'
+  gem 'responders'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
