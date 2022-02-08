@@ -1,19 +1,19 @@
 module V1
   module Admin
     class Visits < API
-      desc 'create a new visit'
-
       helpers do
         def visit
-          @visit = Visit.find(params[:id])
+          Visit.find(params[:id])
         end
       end
 
       resources :visits do
         desc 'Return all visits'
+        params do
+          optional :sort, type: Hash
+        end
         get do
-          visits = Visit.all
-          present visits
+          present sorting(Visit, declared(params)[:sort]).paginate(page: params[:page])
         end
 
         desc 'Return specific visit'
@@ -21,6 +21,7 @@ module V1
           get { visit }
         end
 
+        desc 'create a new visit'
         post do
           Visit.create!(params)
         end
@@ -28,25 +29,14 @@ module V1
         desc 'Update a specific visit'
         route_param :id do
           put do
-            @visit = visit
-
-            if @visit.update(params)
-              present @visit
-            else
-              error!({ error_message: @visit.errors.full_messages.join(', ') }, 422)
-            end
+            visit.tap { |visit| visit.update!(params) }
           end
         end
 
         desc 'Delete a specific visit'
         route_param :id do
           delete do
-            @visit = visit
-            if @visit.destroy
-              present @visit
-            else
-              error!({ error_message: @visit.errors.full_messages.join(', ') }, 422)
-            end
+            visit.destroy!
           end
         end
       end

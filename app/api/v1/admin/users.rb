@@ -3,9 +3,11 @@ module V1
     class Users < API
       resources :users do
         desc 'Return all users'
+        params do
+          optional :sort, type: Hash
+        end
         get do
-          users = User.all
-          present users, with: Entities::User
+          present sorting(User, declared(params)[:sort]).paginate(page: params[:page]), with: Entities::User
         end
 
         desc 'Return specific user'

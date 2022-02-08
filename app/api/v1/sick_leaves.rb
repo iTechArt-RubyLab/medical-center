@@ -7,6 +7,7 @@ module V1
     end
 
     resources :sick_leaves do
+      desc 'create a new sick_leave'
       params do
         requires :destination, type: String
         requires :started_at, type: String
@@ -24,23 +25,36 @@ module V1
           optional :ended_at, type: String
         end
         put do
-          @sick_leave = sick_leave
-          if @sick_leave.update(declared(params, include_missing: false))
-            @sick_leave
-          else
-            error!({ error_message: @sick_leave.errors.full_messages.join(', ') }, 422)
+          sick_leave.tap do |sick_leave|
+            sick_leave.update!(declared(params, include_missing: false))
           end
         end
       end
 
       desc 'Return all sick_leaves'
+      params do
+        optional :sort, type: Hash
+      end
       get do
-        SickLeave.all
+        present sorting(SickLeave, declared(params)[:sort]).paginate(page: params[:page])
       end
 
       desc 'Return specific sick_leave'
       route_param :id, type: Integer do
         get { sick_leave }
+      end
+
+      desc 'Send pdf to patient'
+      route_param :id, type: Integer do
+        get :pdf do
+          last_visit = sick_leave.visits.order('created_at DESC').first
+          patient = last_visit.patient
+          doctor = last_visit.user
+
+          UserMailer.with(sick_leave: sick_leave, patient: patient, doctor: doctor,
+                          host: host).patient_sick_leave.deliver
+          { status: 'ok' }
+        end
       end
     end
   end

@@ -30,8 +30,8 @@
 FactoryBot.define do
   factory :visit do
     cabinet { Faker::Number.number(digits: 3) }
-    user { sick_leave.user }
-    patient { sick_leave.patient }
+    user { create(:user) }
+    patient { create(:patient) }
     date { 10.days.from_now }
     notes { Faker::Lorem.sentence(word_count: rand(2..10)) }
     sick_leave { create(:sick_leave) }

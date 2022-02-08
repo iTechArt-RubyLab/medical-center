@@ -27,3 +27,5 @@ public/packs-test/
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+echo coverage >> .gitignore
