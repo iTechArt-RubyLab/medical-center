@@ -12,7 +12,7 @@ module Helpers
       error!(error.message, 422)
     end
 
-    def argument_error(error)  
+    def argument_error(error)
       error!(error.message, 400)
     end
   end

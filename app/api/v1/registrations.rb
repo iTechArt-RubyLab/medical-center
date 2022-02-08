@@ -19,11 +19,16 @@ module V1
       end
 
       post do
-        user = User.create(params)
+        user = User.create(declared(params))
         user.ensure_authentication_token
-
         UserMailer.with(user: user, host: host).registration_confirmation.deliver
         { status: 'ok', auth_token: user.authentication_token } if user
+      end
+    end
+
+    helpers do
+      def call_authentication?
+        false
       end
     end
   end
