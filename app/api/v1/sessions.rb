@@ -1,5 +1,5 @@
 module V1
-  class Sessions < API
+  class Sessions < Grape::API
     version 'v1', using: :path
     format :json
     prefix :api
@@ -18,6 +18,12 @@ module V1
           service_answer.result
         else
           error!(service_answer.errors.full_messages.to_sentence)
+        end
+      end
+
+      helpers do
+        def call_authentication?
+          false
         end
       end
     end

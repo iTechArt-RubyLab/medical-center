@@ -4,9 +4,11 @@ module V1
       allergies_crud_url = '/api/v1/admin/allergies'
       resources :allergies do
         desc 'Return all allergies'
+        params do
+          optional :sort, type: Hash
+        end
         get do
-          allergies = Allergy.all
-          present allergies, with: Entities::Allergy
+          present sorting(Allergy, declared(params)[:sort]).paginate(page: params[:page]), with: Entities::Allergy
         end
 
         desc 'Return a specific allergy'

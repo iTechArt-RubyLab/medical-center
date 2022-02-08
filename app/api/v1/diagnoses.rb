@@ -1,12 +1,12 @@
 module V1
   class Diagnoses < API
-    desc 'create a new diagnosis'
-
     resources :diagnoses do
       desc 'Return all diagnoses'
+      params do
+        optional :sort, type: Hash
+      end
       get do
-        @diagnoses = Diagnosis.all
-        present @diagnoses
+        present sorting(Diagnosis, declared(params)[:sort]).paginate(page: params[:page])
       end
 
       desc 'Return specific diagnosis'

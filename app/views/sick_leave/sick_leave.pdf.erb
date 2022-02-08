@@ -1,0 +1,21 @@
+Date of extract: 
+<%= Date.today %>
+<br>
+<table style="width:100%">
+<thead>
+  <tr>
+    <th>id
+    <th>title</th>
+    <th>description</th>
+  </tr>
+</thead>
+<tbody>
+  <% @categories.each do |category| %>
+    <%= content_tag :tr, id: dom_id(post), class: dom_class(category) do %>
+      <td><%= category.id %></td>
+      <td><%= category.title %></td>
+      <td><%= category.description %></td>
+    <% end %>
+  <% end %>
+</tbody>
+</table>  
