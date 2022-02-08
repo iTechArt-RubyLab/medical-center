@@ -1,8 +1,7 @@
 module V1
   module Admin
     class Visits < API
-      desc 'create a new visit'
-
+      helpers Helpers::CrudHelpers
       helpers do
         def visit
           @visit = Visit.find(params[:id])
@@ -11,9 +10,12 @@ module V1
 
       resources :visits do
         desc 'Return all visits'
+        params do
+          optional :sort, type: Hash
+        end
         get do
-          visits = Visit.all
-          present visits
+          default_sort = { column_name: 'id', type: 'asc' }
+          present sorting(Visit, declared(params)[:sort], default_sort)
         end
 
         desc 'Return specific visit'
@@ -21,6 +23,7 @@ module V1
           get { visit }
         end
 
+        desc 'create a new visit'
         post do
           Visit.create!(params)
         end

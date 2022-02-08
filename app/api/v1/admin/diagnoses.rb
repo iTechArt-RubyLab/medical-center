@@ -1,8 +1,26 @@
 module V1
   module Admin
     class Diagnoses < API
-      desc 'create a new diagnosis'
+      helpers Helpers::CrudHelpers
+
       resources :diagnoses do
+        desc 'Return all diagnoses'
+        params do
+          optional :sort, type: Hash
+        end
+        get do
+          default_sort = { column_name: 'name', type: 'asc' }
+          present sorting(Diagnosis, declared(params)[:sort], default_sort)
+        end
+
+        desc 'Return specific diagnosis'
+        route_param :id, type: Integer do
+          get do
+            present Diagnosis.find(params[:id])
+          end
+        end
+
+        desc 'create a new diagnosis'
         post do
           Diagnosis.create!(params)
         end

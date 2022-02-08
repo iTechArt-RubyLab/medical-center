@@ -1,12 +1,15 @@
 module V1
   class Diagnoses < API
-    desc 'create a new diagnosis'
+    helpers Helpers::CrudHelpers
 
     resources :diagnoses do
       desc 'Return all diagnoses'
+      params do
+        optional :sort, type: Hash
+      end
       get do
-        @diagnoses = Diagnosis.all
-        present @diagnoses
+        default_sort = { column_name: 'name', type: 'asc' }
+        present sorting(Diagnosis, declared(params)[:sort], default_sort)
       end
 
       desc 'Return specific diagnosis'
