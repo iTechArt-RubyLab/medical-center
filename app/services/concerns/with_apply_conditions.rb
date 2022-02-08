@@ -12,11 +12,7 @@ module WithApplyConditions
 
       arel_conditions =
         applicable_conditions.map do |condition|
-          if condition.is_a? Hash
-            condition[:condition]
-          else
-            condition
-          end
+          condition.is_a?(Hash) ? condition[:condition] : condition
         end
 
       arel_conditions.reduce(scope) do |s, condition|

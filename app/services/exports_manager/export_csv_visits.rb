@@ -3,14 +3,14 @@ require 'csv'
 module ExportsManager
   class ExportCsvVisits
     attr_reader :filters
-
+    HEADERS = %w[cabinet date notes created_at updated_at].freeze
     def initialize(filters: {})
       @filters = filters
     end
 
     def call
       CSV.open(full_filename, 'w') do |csv|
-        csv << headers
+        csv << HEADERS
 
         visits.each do |visit|
           csv << visit_in_row(visit)
@@ -30,23 +30,13 @@ module ExportsManager
       @full_filename ||= Rails.root.join('app', 'assets', 'reports', filename)
     end
 
-    def headers
-      %w[id cabinet date notes created_at updated_at user_id patient_id sick_leave_id visit_id diagnosis_ids]
-    end
-
     def visit_in_row(visit)
       [
-        visit.id,
         visit.cabinet,
         visit.date,
         visit.notes,
         visit.created_at,
-        visit.updated_at,
-        visit.user_id,
-        visit.patient_id,
-        visit.sick_leave_id,
-        visit.visit_id,
-        visit.diagnosis_ids
+        visit.updated_at
       ]
     end
 
