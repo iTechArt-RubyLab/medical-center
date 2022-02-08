@@ -27,16 +27,14 @@ module V1
         desc 'Update a specific visit'
         route_param :id do
           put do
-            visit.tap do |visit|
-              visit.update!(params)
-            end
+            visit.tap { |visit| visit.update!(params) }
           end
         end
 
         desc 'Delete a specific visit'
         route_param :id do
           delete do
-            visit.destroy
+            visit.destroy!
           end
         end
       end
