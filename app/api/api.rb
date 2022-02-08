@@ -1,12 +1,8 @@
-require 'error_handler'
-
 class API < Grape::API
   format :json
   prefix :api
   version 'v1', :path
-
-  use ErrorHandler
-
+  
   NON_AUTHENTICATION_PATHS = [
     '/api/v1/sessions',
     '/api/v1/registrations'
@@ -30,6 +26,12 @@ class API < Grape::API
       error!('401 Unauthorized', 401) unless current_user
     end
   end
+  rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
+  rescue_from ActionController::ParameterMissing, with: :params_missing
+  rescue_from ActiveModel::ValidationError, with: :validation_error
+  rescue_from ArgumentError, with: :argument_error
+
+  helpers ::Helpers::ErrorHandlerHelpers
 
   mount V1::Sessions
   mount V1::Registrations
