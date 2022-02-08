@@ -35,7 +35,7 @@ module V1
 
       desc 'Return all sick_leaves'
       get do
-        SickLeave.all
+        SickLeave.paginate(page: params[:page])
       end
 
       desc 'Return specific sick_leave'

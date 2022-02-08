@@ -12,7 +12,7 @@ module V1
       resources :visits do
         desc 'Return all visits'
         get do
-          visits = Visit.all
+          visits = Visit.paginate(page: params[:page])
           present visits
         end
 

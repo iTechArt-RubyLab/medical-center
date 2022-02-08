@@ -5,7 +5,7 @@ module V1
     resources :diagnoses do
       desc 'Return all diagnoses'
       get do
-        @diagnoses = Diagnosis.all
+        @diagnoses = Diagnosis.paginate(page: params[:page])
         present @diagnoses
       end
 

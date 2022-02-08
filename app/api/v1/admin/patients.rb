@@ -5,7 +5,7 @@ module V1
       resources :patients do
         desc 'Return all patients'
         get do
-          patients = Patient.all
+          patients = Patient.paginate(page: params[:page])
           present patients, with: Entities::Patient
         end
 

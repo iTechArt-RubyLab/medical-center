@@ -4,7 +4,7 @@ module V1
       resources :users do
         desc 'Return all users'
         get do
-          users = User.all
+          users = User.paginate(page: params[:page])
           present users, with: Entities::User
         end
 

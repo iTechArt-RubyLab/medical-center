@@ -4,7 +4,7 @@ module V1
       resources :categories do
         desc 'Return all categories'
         get do
-          categories = Category.all
+          categories = Category.paginate(page: params[:page])
           present categories, with: Entities::Category
         end
 

@@ -5,7 +5,7 @@ module V1
       resources :allergies do
         desc 'Return all allergies'
         get do
-          allergies = Allergy.all
+          allergies = Allergy.paginate(page: params[:page])
           present allergies, with: Entities::Allergy
         end
 
