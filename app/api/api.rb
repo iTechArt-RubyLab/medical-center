@@ -24,6 +24,14 @@ class API < Grape::API
     def admin?
       current_user.role == 'admin'
     end
+
+    def sorting(class_name, sort_by)
+      if sort_by[:column_name] && sort_by[:type]
+        class_name.order("#{sort_by[:column_name]} #{sort_by[:type]}")
+      else
+        class_name.order(id: :asc)
+      end
+    end
   end
 
   before do
