@@ -1,12 +1,17 @@
 module V1
   module Admin
     class Allergies < API
+      helpers Helpers::CrudHelpers
+
       allergies_crud_url = '/api/v1/admin/allergies'
       resources :allergies do
         desc 'Return all allergies'
+        params do
+          optional :sort, type: Hash
+        end
         get do
-          allergies = Allergy.paginate(page: params[:page])
-          present allergies, with: Entities::Allergy
+          default_sort = { column_name: 'name', type: 'asc' }
+          present sorting(Allergy, declared(params)[:sort], default_sort).paginate(page: params[:page]), with: Entities::Allergy
         end
 
         desc 'Return a specific allergy'

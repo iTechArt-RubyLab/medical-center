@@ -30,8 +30,8 @@
 class Visit < ApplicationRecord
   belongs_to :patient
   belongs_to :user
-  belongs_to :sick_leave
-  belongs_to :next_visit, class_name: 'Visit', foreign_key: 'visit_id', inverse_of: :visits
+  belongs_to :sick_leave, optional: true
+  belongs_to :next_visit, class_name: 'Visit', foreign_key: 'visit_id', inverse_of: :next_visit, optional: true
   has_many :visits_diagnoses, dependent: :destroy
   has_many :diagnoses, through: :visits_diagnoses
 

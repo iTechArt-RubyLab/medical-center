@@ -1,7 +1,6 @@
 module V1
   class Visits < API
-    desc 'create a new visit'
-
+    helpers Helpers::CrudHelpers
     helpers do
       def current_user_visits
         Visit.where(user_id: current_user.id)
@@ -15,21 +14,9 @@ module V1
     end
 
     resources :visits do
+      desc 'create a new visit'
       post do
         current_user.visits.create!(params)
-      end
-
-      desc 'Update a specific visit'
-      route_param :id do
-        put do
-          visit = find_visit_by_id(params[:id])
-
-          if visit.update(params)
-            present visit
-          else
-            error!({ error_message: visit.errors.full_messages.join(', ') }, 422)
-          end
-        end
       end
 
       desc 'Return all visits'
