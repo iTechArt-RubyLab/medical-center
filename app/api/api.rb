@@ -18,10 +18,10 @@ class API < Grape::API
     end
 
     def authorize_admin!
-      error!('401 Unauthorized: permission denied', 401) unless user_are_admin?
+      error!('401 Unauthorized: permission denied', 401) unless admin?
     end
 
-    def user_are_admin?
+    def admin?
       current_user.role == 'admin'
     end
   end
