@@ -11,7 +11,7 @@ module V1
         end
         get do
           default_sort = { column_name: 'full_name', type: 'asc' }
-          present sorting(Patient, declared(params)[:sort], default_sort), with: Entities::Patient
+          present sorting(Patient, declared(params)[:sort], default_sort).paginate(page: params[:page]), with: Entities::Patient
         end
 
         desc 'Return a specific patient'

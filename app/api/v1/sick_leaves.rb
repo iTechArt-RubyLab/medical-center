@@ -41,7 +41,7 @@ module V1
       end
       get do
         default_sort = { column_name: 'id', type: 'asc' }
-        present sorting(SickLeave, declared(params)[:sort], default_sort)
+        present sorting(SickLeave, declared(params)[:sort], default_sort).paginate(page: params[:page])
       end
 
       desc 'Return specific sick_leave'

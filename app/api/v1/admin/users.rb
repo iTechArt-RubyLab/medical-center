@@ -10,7 +10,7 @@ module V1
         end
         get do
           default_sort = { column_name: 'full_name', type: 'asc' }
-          present sorting(User, declared(params)[:sort], default_sort), with: Entities::User
+          present sorting(User, declared(params)[:sort], default_sort).paginate(page: params[:page]), with: Entities::User
         end
 
         desc 'Return specific user'

@@ -10,7 +10,7 @@ module V1
         end
         get do
           default_sort = { column_name: 'title', type: 'asc' }
-          present sorting(Category, declared(params)[:sort], default_sort), with: Entities::Category
+          present sorting(Category, declared(params)[:sort], default_sort).paginate(page: params[:page]), with: Entities::Category
         end
 
         desc 'Return a specific category'
