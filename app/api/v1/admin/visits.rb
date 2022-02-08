@@ -1,7 +1,6 @@
 module V1
   module Admin
     class Visits < API
-      helpers Helpers::CrudHelpers
       helpers do
         def visit
           @visit = Visit.find(params[:id])
@@ -14,8 +13,7 @@ module V1
           optional :sort, type: Hash
         end
         get do
-          default_sort = { column_name: 'id', type: 'asc' }
-          present sorting(Visit, declared(params)[:sort], default_sort).paginate(page: params[:page])
+          present sorting(Visit, declared(params)[:sort]).paginate(page: params[:page])
         end
 
         desc 'Return specific visit'

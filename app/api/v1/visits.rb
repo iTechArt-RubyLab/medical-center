@@ -1,6 +1,5 @@
 module V1
   class Visits < API
-    helpers Helpers::CrudHelpers
     helpers do
       def current_user_visits
         Visit.where(user_id: current_user.id)
@@ -21,7 +20,7 @@ module V1
 
       desc 'Return all visits'
       get do
-        present current_user_visits
+        present current_user_visits.paginate(page: params[:page])
       end
 
       desc 'Return specific visit'

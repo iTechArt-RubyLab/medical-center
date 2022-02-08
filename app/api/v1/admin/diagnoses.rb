@@ -1,16 +1,13 @@
 module V1
   module Admin
     class Diagnoses < API
-      helpers Helpers::CrudHelpers
-
       resources :diagnoses do
         desc 'Return all diagnoses'
         params do
           optional :sort, type: Hash
         end
         get do
-          default_sort = { column_name: 'name', type: 'asc' }
-          present sorting(Diagnosis, declared(params)[:sort], default_sort)
+          present sorting(Diagnosis, declared(params)[:sort]).paginate(page: params[:page])
         end
 
         desc 'Return specific diagnosis'
