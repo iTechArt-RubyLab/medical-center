@@ -3,6 +3,7 @@ require 'csv'
 module ExportsManager
   class ExportCsvVisits
     attr_reader :filters
+
     HEADERS = %w[cabinet date notes created_at updated_at].freeze
     def initialize(filters: {})
       @filters = filters
