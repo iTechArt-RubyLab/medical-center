@@ -1,4 +1,6 @@
 class API < Grape::API
+  helpers ::Helpers::APIHelpers
+
   format :json
   prefix :api
   version 'v1', :path
@@ -57,6 +59,8 @@ class API < Grape::API
     mount V1::Admin::Allergies
     mount V1::Admin::Categories
     mount V1::Admin::Diagnoses
+    mount V1::Admin::Categories
+    mount V1::Admin::SickLeaves
     mount V1::Admin::Patients
     mount V1::Admin::SickLeaves
     mount V1::Admin::Visits

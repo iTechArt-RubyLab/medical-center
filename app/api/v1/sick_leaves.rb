@@ -46,6 +46,19 @@ module V1
       route_param :id, type: Integer do
         get { sick_leave }
       end
+
+      desc 'Send pdf to patient'
+      route_param :id, type: Integer do
+        get :pdf do
+          last_visit = sick_leave.visits.order('created_at DESC').first
+          patient = last_visit.patient
+          doctor = last_visit.user
+
+          UserMailer.with(sick_leave: sick_leave, patient: patient, doctor: doctor,
+                          host: host).patient_sick_leave.deliver
+          { status: 'ok' }
+        end
+      end
     end
   end
 end
