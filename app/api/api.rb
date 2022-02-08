@@ -71,6 +71,7 @@ class API < Grape::API
     mount V1::Admin::Categories
     mount V1::Admin::SickLeaves
     mount V1::Admin::Patients
+    mount V1::Admin::Exports
     mount V1::Admin::Visits
   end
 end
