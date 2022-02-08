@@ -3,6 +3,13 @@ module V1
     version 'v1', using: :path
     format :json
     prefix :api
+
+    helpers do
+      def call_authentication?
+        false
+      end
+    end
+
     resource :registrations do
       desc 'Authenticate user and return user object / access token'
 
@@ -17,14 +24,8 @@ module V1
       end
 
       post do
-        email = params[:email]
-        password = params[:password]
-
-        error!({ error_code: 404, error_message: 'Invalid Email or Password.' }, 401) if email.nil? || password.nil?
-
-        user = User.create(params)
+        user = User.create!(declared(params))
         user.ensure_authentication_token
-
         UserMailer.with(user: user, host: host).registration_confirmation.deliver
         { status: 'ok', auth_token: user.authentication_token } if user
       end

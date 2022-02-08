@@ -1,8 +1,15 @@
 module V1
-  class Sessions < API
+  class Sessions < Grape::API
     version 'v1', using: :path
     format :json
     prefix :api
+
+    helpers do
+      def call_authentication?
+        false
+      end
+    end
+
     resource :sessions do
       desc 'Authenticate user and return user object / access token'
 

@@ -4,6 +4,8 @@ describe V1::SickLeaves, type: :request do
   include AuthHelper
 
   let!(:sick_leaves) { create_list(:sick_leave, 2) }
+  let!(:current_user) { create(:user, role: 'admin') }
+  let(:headers) { { 'Authorization' => current_user.authentication_token.to_s } }
 
   describe 'POST#create' do
     let(:params) do
@@ -15,7 +17,7 @@ describe V1::SickLeaves, type: :request do
     end
 
     it 'returns created sickleave' do
-      post '/api/v1/sick_leaves', params: params, headers: headers(current_user)
+      post '/api/v1/sick_leaves', params: params, headers: headers
 
       expect(SickLeave.pluck(:id)).to include(JSON.parse(response.body)['id'])
     end
@@ -31,7 +33,7 @@ describe V1::SickLeaves, type: :request do
     end
 
     it 'returns updated sickleave' do
-      put "/api/v1/sick_leaves/#{sick_leave.id}", params: params, headers: headers(current_user)
+      put "/api/v1/sick_leaves/#{sick_leave.id}", params: params, headers: headers
 
       expect(destination).to include(JSON.parse(response.body)['destination'])
     end
@@ -41,7 +43,7 @@ describe V1::SickLeaves, type: :request do
     let(:sick_leave) { create(:sick_leave) }
 
     it 'returns sickleave by id' do
-      get "/api/v1/sick_leaves/#{sick_leave.id}", params: nil, headers: headers(current_user)
+      get "/api/v1/sick_leaves/#{sick_leave.id}", params: nil, headers: headers
 
       expect(JSON.parse(response.body)['id']).to eq sick_leave.id
     end
@@ -49,7 +51,7 @@ describe V1::SickLeaves, type: :request do
 
   describe 'GET#index' do
     it 'returns current_users sickleave' do
-      get '/api/v1/sick_leaves', params: nil, headers: headers(current_user)
+      get '/api/v1/sick_leaves', params: nil, headers: headers
 
       expect(JSON.parse(response.body).count).to eq sick_leaves.count
     end

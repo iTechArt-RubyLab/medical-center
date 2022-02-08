@@ -8,7 +8,13 @@ module V1
           optional :sort, type: Hash
         end
         get do
-          present sorting(Patient, declared(params)[:sort]).paginate(page: params[:page]), with: Entities::Patient
+          search = params['search']
+
+          if search
+            present Patient.search(params['search']), with: Entities::Patient
+          else
+            present sorting(Patient, declared(params)[:sort]).paginate(page: params[:page]), with: Entities::Patient
+          end
         end
 
         desc 'Return a specific patient'

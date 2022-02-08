@@ -43,7 +43,7 @@ RSpec.describe User, type: :model do
     end
 
     let(:email) { 'arsenij@mail.ru' }
-    let(:phone) { '+375295673205' }
+    let(:phone) { '1234567' }
 
     before { create :user, email: email, phone_number: phone }
 

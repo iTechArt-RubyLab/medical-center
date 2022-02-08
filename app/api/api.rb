@@ -5,6 +5,10 @@ class API < Grape::API
   prefix :api
   version 'v1', :path
 
+  before do
+    authenticate! if call_authentication?
+  end
+
   helpers do
     def current_user
       user = User.find_by(authentication_token: request.headers['Authorization'])
@@ -17,6 +21,10 @@ class API < Grape::API
 
     def authenticate!
       error!('401 Unauthorized', 401) unless current_user
+    end
+
+    def call_authentication?
+      true
     end
 
     def authorize_admin!
@@ -35,10 +43,13 @@ class API < Grape::API
       end
     end
   end
+  rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
+  rescue_from ActionController::ParameterMissing, with: :params_missing
+  rescue_from ActiveModel::ValidationError, with: :validation_error
+  rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
+  rescue_from ArgumentError, with: :argument_error
 
-  # before do
-  #   authenticate!
-  # end
+  helpers ::Helpers::ErrorHandlerHelpers
 
   mount V1::Sessions
   mount V1::Registrations
@@ -49,11 +60,10 @@ class API < Grape::API
   mount V1::Patients
   mount V1::SickLeaves
   mount V1::Visits
-
   namespace :admin do
-    # before do
-    #   authorize_admin!
-    # end
+    before do
+      authorize_admin!
+    end
 
     mount V1::Admin::Users
     mount V1::Admin::Allergies
@@ -62,7 +72,7 @@ class API < Grape::API
     mount V1::Admin::Categories
     mount V1::Admin::SickLeaves
     mount V1::Admin::Patients
-    mount V1::Admin::SickLeaves
+    mount V1::Admin::Exports
     mount V1::Admin::Visits
   end
 end

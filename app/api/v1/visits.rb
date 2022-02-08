@@ -7,8 +7,6 @@ module V1
 
       def find_visit_by_id(id)
         current_user_visits.find(id)
-      rescue ActiveRecord::RecordNotFound => e
-        error!({ error_messages: e.message }, 422)
       end
     end
 
@@ -16,6 +14,17 @@ module V1
       desc 'create a new visit'
       post do
         current_user.visits.create!(params)
+      end
+
+      desc 'Update a specific visit'
+      route_param :id do
+        put do
+          visit = find_visit_by_id(params[:id])
+
+          visit.tap do |visits|
+            visits.update!(params)
+          end
+        end
       end
 
       desc 'Return all visits'

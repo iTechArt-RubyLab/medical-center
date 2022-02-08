@@ -1,6 +1,8 @@
 require 'rails_helper'
 require 'active_record'
 RSpec.describe V1::Admin::Patients, type: :request do
+  include AuthHelper
+
   let(:patients_crud_url) { '/api/v1/admin/patients' }
   let(:patients_params) do
     {
@@ -15,6 +17,8 @@ RSpec.describe V1::Admin::Patients, type: :request do
       allergies_ids: nil
     }
   end
+  let(:current_user) { create :user, role: 'admin' }
+  let(:headers) { { 'Authorization' => current_user.authentication_token.to_s } }
 
   before do
     create_list(:patient, 5)
@@ -23,7 +27,7 @@ RSpec.describe V1::Admin::Patients, type: :request do
   describe 'GET /api/v1/admin/patients' do
     context 'when all records are requested' do
       before do
-        get patients_crud_url
+        get patients_crud_url, headers: headers
       end
 
       it 'returns all patients' do
@@ -35,7 +39,7 @@ RSpec.describe V1::Admin::Patients, type: :request do
   describe 'GET /api/v1/admin/patients/_id_' do
     context 'when record exists' do
       before do
-        get "#{patients_crud_url}/#{Patient.all.sample.id}"
+        get "#{patients_crud_url}/#{Patient.all.sample.id}", headers: headers
       end
 
       it 'return patient' do
@@ -43,21 +47,21 @@ RSpec.describe V1::Admin::Patients, type: :request do
       end
     end
 
-    # context 'when the request is invalid' do
-    #   before do
-    #     get "#{patients_crud_url}/abc"
-    #   end
+    context 'when the request is invalid' do
+      before do
+        get "#{patients_crud_url}/abc", headers: headers
+      end
 
-    #   it 'returns an error message' do
-    #     expect(response).to have_http_status(:not_found)
-    #   end
-    # end
+      it 'returns an error message' do
+        expect(response).to have_http_status(:not_found)
+      end
+    end
   end
 
   describe 'POST /api/v1/admin/patients/' do
     context 'when params are valid' do
       before do
-        post patients_crud_url, params: patients_params
+        post patients_crud_url, params: patients_params, headers: headers
       end
 
       it 'redirect to new patient' do
@@ -67,19 +71,20 @@ RSpec.describe V1::Admin::Patients, type: :request do
       end
     end
 
-    # context 'when passport_id has already been used' do
-    #   before do
-    #     post patients_crud_url, params: patients_params.merge(passport_id: Patient.all.sample.passport_id)
-    #   end
+    context 'when passport_id has already been used' do
+      before do
+        post patients_crud_url, params: patients_params.merge(passport_id: Patient.all.sample.passport_id),
+                                headers: headers
+      end
 
-    #   it 'returns an error message' do
-    #     expect(response).to have_http_status(:bad_request)
-    #   end
-    # end
+      it 'returns an error message' do
+        expect(response).to have_http_status(:bad_request)
+      end
+    end
 
     context 'when one of parameters missing' do
       before do
-        post patients_crud_url, params: patients_params.except(:full_name)
+        post patients_crud_url, params: patients_params.except(:full_name), headers: headers
       end
 
       it 'returns an error message' do
@@ -91,7 +96,7 @@ RSpec.describe V1::Admin::Patients, type: :request do
   describe 'PUT /api/v1/admin/patients/_id_' do
     context 'when params are valid' do
       before do
-        put "#{patients_crud_url}/#{Patient.all.sample.id}", params: patients_params
+        put "#{patients_crud_url}/#{Patient.all.sample.id}", params: patients_params, headers: headers
       end
 
       it 'response have code :ok' do
@@ -103,22 +108,24 @@ RSpec.describe V1::Admin::Patients, type: :request do
       end
     end
 
-    # context 'when passport_id has already been used' do
-    #   let(:updatable_patient) { Patient.all.sample }
+    context 'when passport_id has already been used' do
+      let(:updatable_patient) { Patient.all.sample }
+      let(:rand_passport_id) { Patient.all.excluding(updatable_patient).sample.passport_id }
 
-    #   before do
-    #     put "#{patients_crud_url}/#{updatable_patient.id}",
-    #         params: patients_params.merge(passport_id: Patient.all.excluding(updatable_patient).sample.passport_id)
-    #   end
+      before do
+        put "#{patients_crud_url}/#{updatable_patient.id}",
+            params: patients_params.merge(passport_id: rand_passport_id), headers: headers
+      end
 
-    #   it 'returns an error message' do
-    #     expect(response).to have_http_status(:bad_request)
-    #   end
-    # end
+      it 'returns an error message' do
+        expect(response).to have_http_status(:bad_request)
+      end
+    end
 
     context 'when one of parameters missing' do
       before do
-        put "#{patients_crud_url}/#{Patient.all.sample.id}", params: patients_params.except(:full_name)
+        put "#{patients_crud_url}/#{Patient.all.sample.id}", params: patients_params.except(:full_name),
+                                                             headers: headers
       end
 
       it 'returns an error message' do
@@ -130,7 +137,7 @@ RSpec.describe V1::Admin::Patients, type: :request do
   describe 'DELETE /api/v1/admin/patients/_id_' do
     context 'when patient exist' do
       before do
-        delete patients_crud_url, params: { id: Patient.all.sample.id }
+        delete patients_crud_url, params: { id: Patient.all.sample.id }, headers: headers
       end
 
       it 'request redirected' do
@@ -138,14 +145,14 @@ RSpec.describe V1::Admin::Patients, type: :request do
       end
     end
 
-    # context 'when patient does not exist' do
-    #   before do
-    #     delete patients_crud_url, params: { id: (Patient.last.id + 1) }
-    #   end
+    context 'when patient does not exist' do
+      before do
+        delete patients_crud_url, params: { id: (Patient.last.id + 1) }, headers: headers
+      end
 
-    #   it 'returns an error message' do
-    #     expect(response).to have_http_status(:not_found)
-    #   end
-    # end
+      it 'returns an error message' do
+        expect(response).to have_http_status(:not_found)
+      end
+    end
   end
 end

@@ -3,6 +3,13 @@ module V1
     version 'v1', using: :path
     format :json
     prefix :api
+
+    helpers do
+      def call_authentication?
+        false
+      end
+    end
+
     resource :confirmations do
       desc 'Confirm user registration'
 

@@ -58,8 +58,7 @@ class User < ApplicationRecord
 
   validates :full_name, presence: true, length: { in: 3..50 }
   validates :email, presence: true, uniqueness: true
-  validates :phone_number, presence: true, uniqueness: true
-  validates_with PhoneNumberValidator
+  validates :phone_number, presence: true, uniqueness: true, length: { is: 7 }, numericality: { only_integer: true }
   validates_date :birthdate, presence: true, between: ['01.01.1900', :today]
   validates :role, presence: true
   validates :cabinet_number, presence: true
