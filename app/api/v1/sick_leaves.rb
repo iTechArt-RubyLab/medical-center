@@ -7,6 +7,7 @@ module V1
     end
 
     resources :sick_leaves do
+      desc 'create a new sick_leave'
       params do
         requires :destination, type: String
         requires :started_at, type: String
@@ -34,8 +35,11 @@ module V1
       end
 
       desc 'Return all sick_leaves'
+      params do
+        optional :sort, type: Hash
+      end
       get do
-        SickLeave.all
+        present sorting(SickLeave, declared(params)[:sort]).paginate(page: params[:page])
       end
 
       desc 'Return specific sick_leave'

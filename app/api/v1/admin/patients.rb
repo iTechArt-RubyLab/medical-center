@@ -4,9 +4,11 @@ module V1
       patients_crud_url = '/api/v1/admin/patients'
       resources :patients do
         desc 'Return all patients'
+        params do
+          optional :sort, type: Hash
+        end
         get do
-          patients = Patient.all
-          present patients, with: Entities::Patient
+          present sorting(Patient, declared(params)[:sort]).paginate(page: params[:page]), with: Entities::Patient
         end
 
         desc 'Return a specific patient'
