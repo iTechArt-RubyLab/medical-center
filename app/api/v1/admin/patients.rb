@@ -4,9 +4,11 @@ module V1
       patients_crud_url = '/api/v1/admin/patients'
       resources :patients do
         desc 'Return all patients'
+        params do
+          optional :sort, type: Hash
+        end
         get do
-          patients = Patient.all
-          present patients, with: Entities::Patient
+          present sorting(Patient, declared(params)[:sort]).paginate(page: params[:page]), with: Entities::Patient
         end
 
         desc 'Return a specific patient'
@@ -25,7 +27,7 @@ module V1
         post do
           patient = Patient.create(declared(params, include_missing: true).except(:allergies_ids))
           patient.allergies = Allergy.find(params[:allergies_ids]) if params[:allergies_ids].present?
-          patient.save
+          patient.save!
           redirect "#{patients_crud_url}/#{patient.id}"
         end
 
@@ -39,7 +41,7 @@ module V1
             patient = Patient.find(params[:id])
             checked_allergies = []
             checked_allergies = Allergy.find(params[:allergies_ids]) if params[:allergies_ids].present?
-            patient.update(
+            patient.update!(
               declared(params, include_missing: true).except(:allergies_ids).merge(allergies: checked_allergies)
             )
             present patient, with: Entities::Patient

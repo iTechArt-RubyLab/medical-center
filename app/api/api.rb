@@ -1,4 +1,6 @@
 class API < Grape::API
+  helpers ::Helpers::APIHelpers
+
   format :json
   prefix :api
   version 'v1', :path
@@ -24,6 +26,23 @@ class API < Grape::API
     def call_authentication?
       true
     end
+    
+    def authorize_admin!
+      error!('401 Unauthorized: permission denied', 401) unless admin?
+    end
+
+    def admin?
+      current_user.role == 'admin'
+    end
+
+    def sorting(class_name, sort_by)
+      if sort_by[:column_name] && sort_by[:type]
+        class_name.order("#{sort_by[:column_name]} #{sort_by[:type]}")
+      else
+        class_name.order(id: :asc)
+      end
+    end
+  end
   end
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
   rescue_from ActionController::ParameterMissing, with: :params_missing
@@ -35,15 +54,24 @@ class API < Grape::API
   mount V1::Sessions
   mount V1::Registrations
   mount V1::Confirmations
+  mount V1::Allergies
+  mount V1::Categories
+  mount V1::Diagnoses
+  mount V1::Patients
   mount V1::SickLeaves
   mount V1::Visits
-  mount V1::Diagnoses
   namespace :admin do
+    before do
+      authorize_admin!
+    end
+
     mount V1::Admin::Users
-    mount V1::Admin::Visits
+    mount V1::Admin::Allergies
+    mount V1::Admin::Categories
     mount V1::Admin::Diagnoses
+    mount V1::Admin::Categories
     mount V1::Admin::SickLeaves
     mount V1::Admin::Patients
-    mount V1::Admin::Categories
+    mount V1::Admin::Visits
   end
 end

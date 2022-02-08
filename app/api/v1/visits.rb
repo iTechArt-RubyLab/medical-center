@@ -1,7 +1,5 @@
 module V1
   class Visits < API
-    desc 'create a new visit'
-
     helpers do
       def current_user_visits
         Visit.where(user_id: current_user.id)
@@ -13,6 +11,7 @@ module V1
     end
 
     resources :visits do
+      desc 'create a new visit'
       post do
         current_user.visits.create!(params)
       end
@@ -27,10 +26,10 @@ module V1
           end
         end
       end
-
+      
       desc 'Return all visits'
       get do
-        present current_user_visits
+        present current_user_visits.paginate(page: params[:page])
       end
 
       desc 'Return specific visit'

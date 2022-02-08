@@ -3,9 +3,11 @@ module V1
     class Categories < API
       resources :categories do
         desc 'Return all categories'
+        params do
+          optional :sort, type: Hash
+        end
         get do
-          categories = Category.all
-          present categories, with: Entities::Category
+          present sorting(Category, declared(params)[:sort]).paginate(page: params[:page]), with: Entities::Category
         end
 
         desc 'Return a specific category'

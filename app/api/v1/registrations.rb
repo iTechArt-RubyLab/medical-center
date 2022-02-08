@@ -1,7 +1,5 @@
 module V1
   class Registrations < API
-    helpers Helpers::APIHelpers
-
     version 'v1', using: :path
     format :json
     prefix :api
