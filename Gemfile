@@ -8,6 +8,9 @@ gem 'devise', '~> 4.8'
 gem 'grape-entity', '~> 0.10.1'
 gem 'email_validator', '~> 2.2', '>= 2.2.3'
 gem "figaro"
+gem 'elasticsearch-model', github: 'elastic/elasticsearch-rails', branch: '6.x'
+gem 'elasticsearch-rails', github: 'elastic/elasticsearch-rails', branch: '6.x'
+gem 'jquery-rails'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.4', '>= 6.1.4.4'
 # Use sqlite3 as the database for Active Record
@@ -19,6 +22,7 @@ gem 'pry'
 gem 'pundit', '~> 2.1.1'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
+gem 'searchkick', '~> 4.6'
 gem 'simple_command', '~> 0.1.0'
 gem 'simple_token_authentication', '~> 1.17'
 gem 'validates_timeliness', '~> 6.0.0.beta2'
@@ -47,6 +51,10 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails', '~> 5.0.0'
+end
+
+group :production do
+  gem 'bonsai-elasticsearch-rails', github: 'omc/bonsai-elasticsearch-rails', branch: '6.x'
 end
 
 group :development do

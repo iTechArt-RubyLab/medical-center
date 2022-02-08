@@ -5,8 +5,13 @@ module V1
       resources :patients do
         desc 'Return all patients'
         get do
-          patients = Patient.all
-          present patients, with: Entities::Patient
+          search = params['search'] || nil
+
+          if search
+            present Patient.search(params['search']), with: Entities::Patient
+          else
+            present Patient.all, with: Entities::Patient
+          end
         end
 
         desc 'Return a specific patient'
