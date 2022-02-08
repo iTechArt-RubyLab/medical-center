@@ -31,12 +31,14 @@ gem 'jbuilder', '~> 2.7'
 gem 'factory_bot_rails', require: false
 gem 'faker', '~> 2.19'
 gem 'grape'
+gem 'sidekiq-cron', '~> 1.1'
+gem 'sidekiq', '~> 6.3.1'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-heroku'
 gem 'will_paginate', '~> 3.3', '>= 3.3.1'
 
 # Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
+gem 'redis', '~> 4.5.1'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
