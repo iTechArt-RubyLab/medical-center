@@ -26,7 +26,7 @@ class API < Grape::API
     def call_authentication?
       true
     end
-    
+
     def authorize_admin!
       error!('401 Unauthorized: permission denied', 401) unless admin?
     end
@@ -42,7 +42,6 @@ class API < Grape::API
         class_name.order(id: :asc)
       end
     end
-  end
   end
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
   rescue_from ActionController::ParameterMissing, with: :params_missing

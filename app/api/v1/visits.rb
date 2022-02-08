@@ -26,7 +26,7 @@ module V1
           end
         end
       end
-      
+
       desc 'Return all visits'
       get do
         present current_user_visits.paginate(page: params[:page])
