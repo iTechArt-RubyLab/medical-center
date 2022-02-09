@@ -30,3 +30,16 @@ To be honest, we can't single out any specific task because of the large number 
 What could we do if we had more time?
 
 Firstly we would finish the remaining features, and after that we would do code refactoring. We would also make our documentation more native using special tools.
+
+### Produced by Bundit Crew
+#
+
+- [Polina Matskevich - Scrum Master / Mentor](https://github.com/nieisnuje)
+- [Hanna Babaka - Mentor](https://github.com/hannazspot)
+- [Alina Danilevich - Mentor](https://github.com/lincAlinc)
+#
+- [Arseniy Grom - Developer](https://github.com/PandaGrom)
+- [Vladislav Sivakov - Developer](https://github.com/alhimick-prog)
+- [Andrew Tehanov - Developer](https://github.com/AndrewTehan)
+
+#
